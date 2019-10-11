@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:model/model.dart';
 import 'package:vector_math/vector_math_64.dart' show radians;
 
-import '../clock_model.dart';
 import 'clock_theme.dart';
 import 'hand.dart';
 
@@ -56,20 +56,39 @@ class _AnalogClockState extends State<AnalogClock> {
     super.dispose();
   }
 
-  Widget _buildClock() => ValueListenableBuilder(
-        valueListenable: _minuteAngle,
-        builder: (_, __, ___) => Container(
+  Widget _buildClock() => Center(
+        child: Container(
           color: _theme.background,
           child: Stack(children: [
+            ValueListenableBuilder(
+              valueListenable: _minuteAngle,
+              builder: (_, __, ___) => Hand(
+                color: _theme.hand,
+                width: 8,
+                length: 300,
+                angle: _minuteAngle,
+                offset: 0,
+                overflow: 0,
+              ),
+            ),
             Hand(
               color: _theme.hand,
-              width: 15,
-              length: 300,
-              angle: _minuteAngle,
+              width: 8,
+              length: 150,
+              angle: _hourAngle,
               offset: 0,
               overflow: 0,
             ),
-            Text(🎯'🎯🎯🎯🎯🎯🎯'),
+            Center(
+              child: Container(
+                height: 16,
+                width: 16,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: _theme.hand,
+                ),
+              ),
+            ),
           ]),
         ),
       );

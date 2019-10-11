@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../clock_model.dart';
+import 'package:model/model.dart';
 
 enum _Element {
   background,
