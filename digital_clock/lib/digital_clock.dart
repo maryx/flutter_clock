@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:model/model.dart';
 
-import '../clock_model.dart';
 import 'clock_theme.dart';
 
 class DigitalClock extends StatefulWidget {

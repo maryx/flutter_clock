@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../analog/analog_clock.dart';
-import '../clock_model.dart';
-import '../digital/digital_clock.dart';
+import 'package:analog_clock/analog_clock.dart';
+import 'package:digital_clock/digital_clock.dart';
+import 'package:model/model.dart';
 
 enum Option {
   mode,

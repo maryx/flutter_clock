@@ -8,8 +8,6 @@ class Hand extends StatelessWidget {
   final double _width;
   final double _length;
   final ValueListenable<double> _angle;
-  final int _offset;
-  final int _overflow;
 
   const Hand({
     @required Color color,
@@ -21,9 +19,7 @@ class Hand extends StatelessWidget {
   })  : _color = color,
         _width = width,
         _length = length,
-        _angle = angle,
-        _offset = offset,
-        _overflow = overflow;
+        _angle = angle;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +41,7 @@ class Hand extends StatelessWidget {
     );
 
     // Center the hand after it has been translated.
+    // TODO why is this off-center?
     return Positioned(
       top: 238,
       left: 398,
