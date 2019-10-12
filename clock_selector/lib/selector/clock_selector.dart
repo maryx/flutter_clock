@@ -91,7 +91,7 @@ class _ClockSelectorState extends State<ClockSelector> {
               setState(() {
                 if (option == Option.is24Hr) {
                   _is24Hr = checked;
-                  _model.is24HrFormat = checked;
+                  _model.is24HourFormat = checked;
                 } else {
                   _showTickers = checked;
                 }

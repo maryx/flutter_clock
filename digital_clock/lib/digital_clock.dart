@@ -19,6 +19,7 @@ class _DigitalClockState extends State<DigitalClock> {
   final _dateTime = ValueNotifier<DateTime>(DateTime.now());
   ClockTheme _theme;
   Timer _timer;
+  bool _is24Hr;
 
   @override
   void initState() {
@@ -52,9 +53,8 @@ class _DigitalClockState extends State<DigitalClock> {
           ),
           child: ValueListenableBuilder(
             valueListenable: _dateTime,
-            builder: (_, time, __) => Text(
-              getDigitTime(time),
-            ),
+            builder: (_, time, __) =>
+                Text(DateFormat(_is24Hr ? 'HH:mm' : 'hh:mm').format(time)),
           ),
         ),
       ));
@@ -64,13 +64,10 @@ class _DigitalClockState extends State<DigitalClock> {
     return ValueListenableBuilder(
       valueListenable: widget._model,
       builder: (_, model, __) {
-        _theme = ClockTheme()..mode = widget._model.value.mode;
+        _theme = ClockTheme()..mode = model.mode;
+        _is24Hr = model.is24HourFormat;
         return _buildClock();
       },
     );
   }
-}
-
-String getDigitTime(DateTime time, [bool is24Hr = true]) {
-  return DateFormat(is24Hr ? 'HH:mm' : 'h:mm').format(time);
 }
