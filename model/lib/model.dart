@@ -1,5 +1,5 @@
 class ClockModel {
-  bool is24HrFormat = true;
+  bool is24HourFormat = true;
   Mode mode = Mode.LIGHT;
   WeatherModel weatherModel = WeatherModel();
 }
