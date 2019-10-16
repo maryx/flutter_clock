@@ -80,7 +80,7 @@ class _ClockSelectorState extends State<ClockSelector> {
             onChanged: (bool checked) {
               setState(() {
                 _is24Hr = checked;
-                _model.is24HrFormat = checked;
+                _model.is24HourFormat = checked;
               });
             }),
         Text(title),
