@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:analog_clock/analog_clock.dart';
 import 'package:digital_clock/digital_clock.dart';
 import 'package:model/model.dart';
 
 enum Option {
   mode,
-  type,
-  theme, // TODO
   is24Hr,
-  showTickers,
   temperature,
   high,
   low,
@@ -18,7 +14,6 @@ enum Option {
 }
 
 const _spacer = SizedBox(width: 30);
-const types = ['ANALOG', 'DIGITAL'];
 
 String enumToString(Object e) => e.toString().split('.').last;
 
@@ -39,9 +34,7 @@ class ClockSelector extends StatefulWidget {
 
 class _ClockSelectorState extends State<ClockSelector> {
   String _mode = enumToString(Mode.LIGHT);
-  String _type = types[0];
   bool _is24Hr = true;
-  bool _showTickers = false;
 
   ClockModel _model = ClockModel();
 
@@ -57,9 +50,6 @@ class _ClockSelectorState extends State<ClockSelector> {
               case Option.mode:
                 _mode = selected;
                 _model.mode = stringToEnum(selected, Mode.values);
-                break;
-              case Option.type:
-                _type = selected;
                 break;
               case Option.weatherCondition:
                 _model.weatherModel.weatherCondition =
@@ -86,15 +76,11 @@ class _ClockSelectorState extends State<ClockSelector> {
     return Row(
       children: [
         Checkbox(
-            value: option == Option.is24Hr ? _is24Hr : _showTickers,
+            value: _is24Hr,
             onChanged: (bool checked) {
               setState(() {
-                if (option == Option.is24Hr) {
-                  _is24Hr = checked;
-                  _model.is24HourFormat = checked;
-                } else {
-                  _showTickers = checked;
-                }
+                _is24Hr = checked;
+                _model.is24HourFormat = checked;
               });
             }),
         Text(title),
@@ -107,13 +93,9 @@ class _ClockSelectorState extends State<ClockSelector> {
     final clockOptions = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _dropdownButton(Option.type, _type, types),
-        _spacer,
         _dropdownButton(Option.mode, _mode, enumsToStrings(Mode.values)),
         _spacer,
         _checkbox(Option.is24Hr, '24-hour format'),
-        _spacer,
-        _checkbox(Option.showTickers, 'Show tickers'),
         _spacer,
       ],
     );
@@ -142,36 +124,9 @@ class _ClockSelectorState extends State<ClockSelector> {
         decoration: BoxDecoration(
           border: Border.all(width: 2, color: Colors.black),
         ),
-        child: _type == types[0]
-            ? AnalogClock(ValueNotifier<ClockModel>(_model))
-            : DigitalClock(ValueNotifier<ClockModel>(_model)),
+        child: DigitalClock(ValueNotifier<ClockModel>(_model)),
       )
     ];
-
-    if (_showTickers) {
-      children.addAll([
-        Positioned(
-          right: 24,
-          top: 24,
-          child: Icon(Icons.alarm, size: 36, color: Colors.grey),
-        ),
-        Positioned(
-          right: 80,
-          top: 24,
-          child: Icon(Icons.wb_sunny, size: 36, color: Colors.grey),
-        ),
-        Positioned(
-          bottom: 24,
-          left: 260,
-          child: Center(
-            child: Text(
-              'Alarm ticker text',
-              style: TextStyle(color: Colors.grey, fontSize: 36),
-            ),
-          ),
-        ),
-      ]);
-    }
 
     final clockContainer = Stack(children: children);
 
