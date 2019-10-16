@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:intl/intl.dart';
 import 'package:model/model.dart';
 import 'package:vector_math/vector_math_64.dart' show radians;
 
@@ -95,12 +97,20 @@ class _AnalogClockState extends State<AnalogClock> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: widget._model,
-      builder: (_, model, __) {
-        _theme = ClockTheme()..mode = widget._model.value.mode;
-        return _buildClock();
-      },
+    final time = DateFormat.Hm().format(DateTime.now());
+    return Semantics.fromProperties(
+      properties: SemanticsProperties(
+        label:
+            'Analog clock with hour hand and minute hand showing a time of $time',
+        value: time,
+      ),
+      child: ValueListenableBuilder(
+        valueListenable: widget._model,
+        builder: (_, model, __) {
+          _theme = ClockTheme()..mode = widget._model.value.mode;
+          return _buildClock();
+        },
+      ),
     );
   }
 }

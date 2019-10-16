@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:intl/intl.dart';
 import 'package:model/model.dart';
 
@@ -44,20 +45,30 @@ class _DigitalClockState extends State<DigitalClock> {
   }
 
   Widget _buildClock() => Container(
-      color: _theme.background,
-      child: Center(
-        child: DefaultTextStyle(
-          style: TextStyle(
-            color: _theme.text,
-            fontSize: 160,
-          ),
-          child: ValueListenableBuilder(
-            valueListenable: _dateTime,
-            builder: (_, time, __) =>
-                Text(DateFormat(_is24Hr ? 'HH:mm' : 'hh:mm').format(time)),
+        color: _theme.background,
+        child: Center(
+          child: DefaultTextStyle(
+            style: TextStyle(
+              color: _theme.text,
+              fontSize: 160,
+            ),
+            child: ValueListenableBuilder(
+              valueListenable: _dateTime,
+              builder: (_, time, __) {
+                final timeText =
+                    DateFormat(_is24Hr ? 'HH:mm' : 'hh:mm').format(time);
+                return Semantics.fromProperties(
+                  properties: SemanticsProperties(
+                    label: 'Digital clock showing a time of $timeText',
+                    value: timeText,
+                  ),
+                  child: Text(timeText),
+                );
+              },
+            ),
           ),
         ),
-      ));
+      );
 
   @override
   Widget build(BuildContext context) {
