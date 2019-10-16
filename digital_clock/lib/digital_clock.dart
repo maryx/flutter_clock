@@ -53,18 +53,19 @@ class _DigitalClockState extends State<DigitalClock> {
               fontSize: 160,
             ),
             child: ValueListenableBuilder(
-                valueListenable: _dateTime,
-                builder: (_, time, __) {
-                  final timeText =
-                      DateFormat(_is24Hr ? 'HH:mm' : 'hh:mm').format(time);
-                  return Semantics.fromProperties(
-                    properties: SemanticsProperties(
-                      label: 'Digital clock showing a time of $timeText',
-                      value: timeText,
-                    ),
-                    child: Text(timeText),
-                  );
-                }),
+              valueListenable: _dateTime,
+              builder: (_, time, __) {
+                final timeText =
+                    DateFormat(_is24Hr ? 'HH:mm' : 'hh:mm').format(time);
+                return Semantics.fromProperties(
+                  properties: SemanticsProperties(
+                    label: 'Digital clock showing a time of $timeText',
+                    value: timeText,
+                  ),
+                  child: Text(timeText),
+                );
+              },
+            ),
           ),
         ),
       );
