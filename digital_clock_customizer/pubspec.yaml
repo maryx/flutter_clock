@@ -1,0 +1,25 @@
+name: digital_clock_customizer
+description: Digital clock with customizations.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  clock_customizer:
+    path: ../clock_customizer
+  digital_clock:
+    path: ../digital_clock
+  model:
+    path: ../model
+
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
