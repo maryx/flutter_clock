@@ -1,5 +1,5 @@
-name: digital_clock_customizer
-description: Digital clock with customizations.
+name: analog_clock_customizer
+description: Analog clock with customizations.
 version: 1.0.0+1
 
 environment:
@@ -8,10 +8,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  clock_customizer:
-    path: ../clock_customizer
+  # TODO: If you want to use your own clock package, add it here.
   analog_clock:
     path: ../analog_clock
+  clock_customizer:
+    path: ../clock_customizer
   model:
     path: ../model
 
