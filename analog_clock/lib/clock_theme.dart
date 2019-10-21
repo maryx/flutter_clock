@@ -23,7 +23,7 @@ const _themes = {
 };
 
 class ClockTheme {
-  Mode mode = Mode.LIGHT;
+  Mode mode = Mode.light;
 
   Color get background => _themes[mode][_Element.background];
   Color get hand => _themes[mode][_Element.hand];
