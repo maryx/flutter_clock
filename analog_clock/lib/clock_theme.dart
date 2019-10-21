@@ -18,12 +18,12 @@ const _dark = {
 };
 
 const _themes = {
-  Mode.LIGHT: _light,
-  Mode.DARK: _dark,
+  Mode.light: _light,
+  Mode.dark: _dark,
 };
 
 class ClockTheme {
-  Mode mode = Mode.LIGHT;
+  Mode mode = Mode.light;
 
   Color get background => _themes[mode][_Element.background];
   Color get hand => _themes[mode][_Element.hand];
