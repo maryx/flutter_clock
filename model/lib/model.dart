@@ -1,12 +1,12 @@
 class ClockModel {
   bool is24HourFormat = true;
-  Mode mode = Mode.LIGHT;
+  Mode mode = Mode.light;
   WeatherModel weatherModel = WeatherModel();
 }
 
 enum Mode {
-  LIGHT,
-  DARK,
+  light,
+  dark,
 }
 
 class WeatherModel {
@@ -20,24 +20,24 @@ class WeatherModel {
   int low = 54;
 
   /// Weather condition text for current weather. Example: Cloudy, Sunny, etc.
-  WeatherCondition weatherCondition = WeatherCondition.SUNNY;
+  WeatherCondition weatherCondition = WeatherCondition.sunny;
 
-  /// Temperature unit. For example: FARENHEIT.
-  TemperatureUnit unit = TemperatureUnit.FARENHEIT;
+  /// Temperature unit. For example: Fahrenheit.
+  TemperatureUnit unit = TemperatureUnit.fahrenheit;
 }
 
 /// Weather condition in English.
 enum WeatherCondition {
-  SUNNY,
-  WINDY,
-  CLOUDY,
-  SNOWY,
-  RAINY,
-  THUNDERSTORM,
+  sunny,
+  windy,
+  cloudy,
+  snowy,
+  rainy,
+  thunderstorm,
 }
 
 /// Temperature unit.
 enum TemperatureUnit {
-  CELCIUS,
-  FARENHEIT,
+  celsius,
+  fahrenheit,
 }

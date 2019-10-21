@@ -10,6 +10,7 @@ dependencies:
     sdk: flutter
   clock_customizer:
     path: ../clock_customizer
+  # TODO: If you want to use your own clock package, add it here.
   digital_clock:
     path: ../digital_clock
   model:

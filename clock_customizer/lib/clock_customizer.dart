@@ -34,7 +34,7 @@ class ClockCustomizer extends StatefulWidget {
 }
 
 class _ClockCustomizerState extends State<ClockCustomizer> {
-  String _mode = enumToString(Mode.LIGHT);
+  String _mode = enumToString(Mode.light);
   bool _is24Hr = true;
 
   ClockModel _model = ClockModel();
