@@ -18,8 +18,8 @@ const _dark = {
 };
 
 const _themes = {
-  Mode.LIGHT: _light,
-  Mode.DARK: _dark,
+  Mode.light: _light,
+  Mode.dark: _dark,
 };
 
 class ClockTheme {
