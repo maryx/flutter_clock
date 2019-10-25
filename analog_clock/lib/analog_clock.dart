@@ -99,11 +99,14 @@ class _AnalogClockState extends State<AnalogClock> {
               size: 0.75,
               angleRadians: _now.minute * radiansPerTick,
             ),
-            Hand(
-              color: _theme.hand,
-              thickness: 4,
-              size: 1.0,
+            ContainerHand(
+              color: Colors.transparent,
+              size: 0.8,
               angleRadians: _now.second * radiansPerTick,
+              child: Transform.translate(
+                offset: const Offset(0.0, -100.0),
+                child: Text('Second', textScaleFactor: 3.0,),
+              ),
             ),
           ],
         ),

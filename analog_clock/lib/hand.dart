@@ -93,9 +93,59 @@ class _HandPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_HandPainter oldDelegate) {
-    return oldDelegate.handSize != handSize ||
-        oldDelegate.lineWidth != lineWidth ||
-        oldDelegate.angleRadians != angleRadians ||
-        oldDelegate.color != color;
+    return oldDelegate.handSize != handSize || oldDelegate.lineWidth != lineWidth || oldDelegate.angleRadians != angleRadians || oldDelegate.color != color;
+  }
+}
+
+/// An analog clock hand drawing widget that uses its child as the clock hand.
+///
+/// This only draws one hand of the analog clock. Put them in a Stack to have
+/// more than one hand.
+class ContainerHand extends StatelessWidget {
+  final Color _color;
+  final double _size;
+  final double _angleRadians;
+  final Widget child;
+
+  /// Create a const clock [Hand].
+  ///
+  /// The `color` is the color of the hand.
+  ///
+  /// The `thickness` specifies how thick the hand should be drawn, in logical
+  /// pixels.
+  ///
+  /// The `size` is a percentage of the overall size of the smallest side of the
+  /// rectangle the clock is in.
+  ///
+  /// The `angleRadians` is the angle from vertical to draw the hand at, in
+  /// radians.
+  ///
+  /// All of the parameters are required and must not be null.
+  const ContainerHand({
+    @required Color color,
+    @required double size,
+    @required double angleRadians,
+    this.child,
+  })  : assert(size != null),
+        assert(angleRadians != null),
+        _color = color,
+        _size = size,
+        _angleRadians = angleRadians;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox.expand(
+        child: Transform.rotate(
+          angle: _angleRadians,
+          alignment: Alignment.center,
+          child: Transform.scale(
+            scale: _size,
+            alignment: Alignment.center,
+            child: Container(color: _color, child: Center(child: child)),
+          ),
+        ),
+      ),
+    );
   }
 }
