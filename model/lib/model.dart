@@ -1,7 +1,37 @@
-class ClockModel {
-  bool is24HourFormat = true;
-  Mode mode = Mode.light;
-  WeatherModel weatherModel = WeatherModel();
+import 'package:flutter/foundation.dart';
+
+/// This is the model that contains the options for the clock.
+///
+/// It is a [ChangeNotifier], so use [ChangeNotifier.addListener] to listen to
+/// changes to the model. Be sure to call [ChangeNotifier.removeListener] in
+/// your `dispose` method.
+class ClockModel extends ChangeNotifier {
+  bool get is24HourFormat => _is24HourFormat;
+  bool _is24HourFormat = true;
+  set is24HourFormat(bool is24HourFormat) {
+    if (_is24HourFormat != is24HourFormat) {
+      _is24HourFormat = is24HourFormat;
+      notifyListeners();
+    }
+  }
+
+  Mode get mode => _mode;
+  Mode _mode = Mode.light;
+  set mode(Mode mode) {
+    if (_mode != mode) {
+      _mode = mode;
+      notifyListeners();
+    }
+  }
+
+  WeatherModel get weatherModel => _weatherModel;
+  WeatherModel _weatherModel = WeatherModel();
+  set weatherModel(WeatherModel weatherModel) {
+    if (_weatherModel != weatherModel) {
+      _weatherModel = weatherModel;
+      notifyListeners();
+    }
+  }
 }
 
 enum Mode {

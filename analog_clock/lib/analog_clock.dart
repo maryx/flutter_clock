@@ -10,13 +10,16 @@ import 'clock_theme.dart';
 import 'hand.dart';
 
 /// Total distance travelled by a second/minute hand, each second/minute.
-final radiansTraveledPerMinute = radians(360 / 60);
+final double radiansPerTick = radians(360 / 60);
 
 /// Total distance travelled by an hour hand, each hour, in radians.
-final radiansTraveledPerHour = radians(360 / 12);
+final double radiansPerHour = radians(360 / 12);
 
+/// A very basic analog clock.
+///
+/// You can do better than this!
 class AnalogClock extends StatefulWidget {
-  final ValueNotifier<ClockModel> _model;
+  final ClockModel _model;
 
   const AnalogClock(this._model);
 
@@ -25,97 +28,86 @@ class AnalogClock extends StatefulWidget {
 }
 
 class _AnalogClockState extends State<AnalogClock> {
-  final _hourAngle = ValueNotifier<double>(0.0);
-  final _minuteAngle = ValueNotifier<double>(0.0);
-  ClockTheme _theme;
+  DateTime _now = DateTime.now();
+  ClockTheme _theme = ClockTheme();
   Timer _timer;
 
   @override
   void initState() {
     super.initState();
+    widget._model.addListener(_updateModel);
+    // Set the initial values.
     _updateTime();
+    _updateModel();
+  }
+
+  void _updateModel() {
+    setState(() {
+      _theme.mode = widget._model.mode;
+    });
   }
 
   void _updateTime() {
-    final time = DateTime.now();
-    _minuteAngle.value = round(time.minute * radiansTraveledPerMinute, 3);
-    _hourAngle.value = round(
-        time.hour * radiansTraveledPerHour +
-            (time.minute / 60) * radiansTraveledPerHour,
-        3);
-    _timer = Timer(
-        Duration(seconds: 60 - time.second) -
-            Duration(milliseconds: time.millisecond),
-        _updateTime);
+    setState(() {
+      _now = DateTime.now();
+      // Update once per second, but make sure to do it at the beginning of each
+      // new second, so that the clock is accurate.
+      _timer = Timer(
+        Duration(seconds: 1) - Duration(milliseconds: _now.millisecond),
+        _updateTime,
+      );
+    });
+  }
+
+  @override
+  void didUpdateWidget(AnalogClock oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget._model != oldWidget._model) {
+      oldWidget._model.removeListener(_updateModel);
+      widget._model.addListener(_updateModel);
+    }
   }
 
   @override
   void dispose() {
     _timer?.cancel();
-    _minuteAngle.dispose();
-    _hourAngle.dispose();
-    widget._model.dispose();
+    widget._model.removeListener(_updateModel);
     super.dispose();
   }
-
-  Widget _buildClock() => Center(
-        child: Container(
-          color: _theme.background,
-          child: Stack(children: [
-            ValueListenableBuilder(
-              valueListenable: _minuteAngle,
-              builder: (_, __, ___) => Hand(
-                color: _theme.hand,
-                width: 8,
-                length: 300,
-                angle: _minuteAngle,
-                offset: 0,
-                overflow: 0,
-              ),
-            ),
-            Hand(
-              color: _theme.hand,
-              width: 8,
-              length: 150,
-              angle: _hourAngle,
-              offset: 0,
-              overflow: 0,
-            ),
-            Center(
-              child: Container(
-                height: 16,
-                width: 16,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: _theme.hand,
-                ),
-              ),
-            ),
-          ]),
-        ),
-      );
 
   @override
   Widget build(BuildContext context) {
     final time = DateFormat.Hm().format(DateTime.now());
     return Semantics.fromProperties(
       properties: SemanticsProperties(
-        label:
-            'Analog clock with hour hand and minute hand showing a time of $time',
+        label: 'Analog clock with hour, minute, and second hands, showing a time of $time',
         value: time,
       ),
-      child: ValueListenableBuilder(
-        valueListenable: widget._model,
-        builder: (_, model, __) {
-          _theme = ClockTheme()..mode = widget._model.value.mode;
-          return _buildClock();
-        },
+      child: Container(
+        color: _theme.background,
+        child: Stack(
+          children: [
+            Hand(
+              color: _theme.hand,
+              thickness: 10,
+              size: 0.5,
+              angleRadians: _now.hour * radiansPerHour + (_now.minute / 60) * radiansPerHour,
+            ),
+            Hand(
+              color: _theme.hand,
+              thickness: 8,
+              size: 0.75,
+              angleRadians: _now.minute * radiansPerTick,
+            ),
+            Hand(
+              color: _theme.hand,
+              thickness: 4,
+              size: 1.0,
+              angleRadians: _now.second * radiansPerTick,
+            ),
+          ],
+        ),
       ),
     );
   }
-}
-
-/// Rounds an angle in radians (for an analog clock hand) to [decimalPlaces].
-double round(double angle, decimalPlaces) {
-  return double.parse(angle.toStringAsFixed(decimalPlaces));
 }
