@@ -14,13 +14,19 @@ import 'package:model/model.dart';
 void main() {
   /// A temporary measure until TargetPlatform supports macOS.
   if (Platform.isMacOS) {
+    // TODO(gspencergoog): Update this when TargetPlatform includes macOS. https://github.com/flutter/flutter/issues/31366
+    // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
   runApp(
     MaterialApp(
       title: 'Digital Clock with Customizer',
       home: Scaffold(
-        body: ClockCustomizer((ClockModel model) => DigitalClock(model)),
+        body: SafeArea(
+          child: ClockCustomizer(
+            (ClockModel model, WeatherModel weatherModel) => DigitalClock(model, weatherModel),
+          ),
+        ),
       ),
     ),
   );

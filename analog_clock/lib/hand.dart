@@ -2,43 +2,54 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-/// An analog clock hand drawing widget.
+/// A base class for an analog clock hand-drawing widget.
 ///
-/// This only draws one hand of the analog clock. Put them in a Stack to have
+/// This only draws one hand of the analog clock. Put them in a [Stack] to have
 /// more than one hand.
-class Hand extends StatelessWidget {
-  final Color _color;
-  final double _thickness;
-  final double _size;
-  final double _angleRadians;
-
+abstract class Hand extends StatelessWidget {
   /// Create a const clock [Hand].
-  ///
-  /// The `color` is the color of the hand.
-  ///
-  /// The `thickness` specifies how thick the hand should be drawn, in logical
-  /// pixels.
-  ///
-  /// The `size` is a percentage of the overall size of the smallest side of the
-  /// rectangle the clock is in.
-  ///
-  /// The `angleRadians` is the angle from vertical to draw the hand at, in
-  /// radians.
   ///
   /// All of the parameters are required and must not be null.
   const Hand({
+    @required this.color,
+    @required this.size,
+    @required this.angleRadians,
+  })  : assert(color != null),
+        assert(size != null),
+        assert(angleRadians != null);
+
+  /// The color to draw the hand in.
+  final Color color;
+
+  /// The length that the hand will be, as a percentage of the smallest side of
+  /// the rectangle the clock is in.
+  final double size;
+
+  /// The angle from vertical to draw the hand at, in radians.
+  final double angleRadians;
+}
+
+class DrawnHand extends Hand {
+  /// Create a const clock [Hand].
+  ///
+  /// All of the parameters are required and must not be null.
+  const DrawnHand({
     @required Color color,
-    @required double thickness,
+    @required this.thickness,
     @required double size,
     @required double angleRadians,
   })  : assert(color != null),
         assert(thickness != null),
         assert(size != null),
         assert(angleRadians != null),
-        _color = color,
-        _thickness = thickness,
-        _size = size,
-        _angleRadians = angleRadians;
+        super(
+          color: color,
+          size: size,
+          angleRadians: angleRadians,
+        );
+
+  /// How thick the hand should be drawn, in logical pixels.
+  final double thickness;
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +57,10 @@ class Hand extends StatelessWidget {
       child: SizedBox.expand(
         child: CustomPaint(
           painter: _HandPainter(
-            handSize: _size,
-            lineWidth: _thickness,
-            angleRadians: _angleRadians,
-            color: _color,
+            handSize: size,
+            lineWidth: thickness,
+            angleRadians: angleRadians,
+            color: color,
           ),
         ),
       ),
@@ -78,12 +89,12 @@ class _HandPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Offset center = (Offset.zero & size).center;
+    final center = (Offset.zero & size).center;
     // We want to start at the top, not the x-axis, so add pi/2.
     final angle = angleRadians - math.pi / 2.0;
     final length = size.shortestSide * 0.5 * handSize;
-    final Offset position = center + Offset(math.cos(angle), math.sin(angle)) * length;
-    final Paint linePaint = Paint()
+    final position = center + Offset(math.cos(angle), math.sin(angle)) * length;
+    final linePaint = Paint()
       ..color = color
       ..strokeWidth = lineWidth
       ..strokeCap = StrokeCap.round;
@@ -93,7 +104,10 @@ class _HandPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_HandPainter oldDelegate) {
-    return oldDelegate.handSize != handSize || oldDelegate.lineWidth != lineWidth || oldDelegate.angleRadians != angleRadians || oldDelegate.color != color;
+    return oldDelegate.handSize != handSize ||
+        oldDelegate.lineWidth != lineWidth ||
+        oldDelegate.angleRadians != angleRadians ||
+        oldDelegate.color != color;
   }
 }
 
@@ -101,24 +115,8 @@ class _HandPainter extends CustomPainter {
 ///
 /// This only draws one hand of the analog clock. Put them in a Stack to have
 /// more than one hand.
-class ContainerHand extends StatelessWidget {
-  final Color _color;
-  final double _size;
-  final double _angleRadians;
-  final Widget child;
-
+class ContainerHand extends Hand {
   /// Create a const clock [Hand].
-  ///
-  /// The `color` is the color of the hand.
-  ///
-  /// The `thickness` specifies how thick the hand should be drawn, in logical
-  /// pixels.
-  ///
-  /// The `size` is a percentage of the overall size of the smallest side of the
-  /// rectangle the clock is in.
-  ///
-  /// The `angleRadians` is the angle from vertical to draw the hand at, in
-  /// radians.
   ///
   /// All of the parameters are required and must not be null.
   const ContainerHand({
@@ -128,21 +126,30 @@ class ContainerHand extends StatelessWidget {
     this.child,
   })  : assert(size != null),
         assert(angleRadians != null),
-        _color = color,
-        _size = size,
-        _angleRadians = angleRadians;
+        super(
+          color: color,
+          size: size,
+          angleRadians: angleRadians,
+        );
+
+  /// The child widget that will be used as the clock hand and rotated by
+  /// [angleRadians].
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox.expand(
         child: Transform.rotate(
-          angle: _angleRadians,
+          angle: angleRadians,
           alignment: Alignment.center,
           child: Transform.scale(
-            scale: _size,
+            scale: size,
             alignment: Alignment.center,
-            child: Container(color: _color, child: Center(child: child)),
+            child: Container(
+              color: color,
+              child: Center(child: child),
+            ),
           ),
         ),
       ),

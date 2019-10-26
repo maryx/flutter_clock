@@ -11,9 +11,10 @@ import 'clock_theme.dart';
 ///
 /// You can do better than this!
 class DigitalClock extends StatefulWidget {
-  final ClockModel _model;
+  const DigitalClock(this.model, this.weatherModel);
 
-  const DigitalClock(this._model);
+  final ClockModel model;
+  final WeatherModel weatherModel;
 
   @override
   _DigitalClockState createState() => _DigitalClockState();
@@ -21,36 +22,50 @@ class DigitalClock extends StatefulWidget {
 
 class _DigitalClockState extends State<DigitalClock> {
   DateTime _dateTime = DateTime.now();
+  var _temperature = '';
   ClockTheme _theme = ClockTheme();
   Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    widget._model.addListener(_updateModel);
+    widget.model.addListener(_updateModel);
+    widget.weatherModel.addListener(_updateWeatherModel);
     _updateTime();
     _updateModel();
+    _updateWeatherModel();
   }
 
   @override
   void didUpdateWidget(DigitalClock oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget._model != oldWidget._model) {
-      oldWidget._model.removeListener(_updateModel);
-      widget._model.addListener(_updateModel);
+    if (widget.model != oldWidget.model) {
+      oldWidget.model.removeListener(_updateModel);
+      widget.model.addListener(_updateModel);
+    }
+    if (widget.weatherModel != oldWidget.weatherModel) {
+      oldWidget.weatherModel.removeListener(_updateWeatherModel);
+      widget.weatherModel.addListener(_updateWeatherModel);
     }
   }
 
   @override
   void dispose() {
     _timer?.cancel();
-    widget._model.addListener(_updateModel);
+    widget.model.addListener(_updateModel);
+    widget.weatherModel.removeListener(_updateWeatherModel);
     super.dispose();
   }
 
   void _updateModel() {
     setState(() {
-      _theme.mode = widget._model.mode;
+      _theme.mode = widget.model.mode;
+    });
+  }
+
+  void _updateWeatherModel() {
+    setState(() {
+      _temperature = widget.weatherModel.temperatureString;
     });
   }
 
@@ -68,7 +83,7 @@ class _DigitalClockState extends State<DigitalClock> {
 
   @override
   Widget build(BuildContext context) {
-    final String timeText = DateFormat(widget._model.is24HourFormat ? 'HH:mm:ss' : 'h:mm:ss a')
+    final String timeText = DateFormat(widget.model.is24HourFormat ? 'HH:mm:ss' : 'h:mm:ss a')
         .format(_dateTime)
         .toLowerCase();
 
@@ -78,14 +93,33 @@ class _DigitalClockState extends State<DigitalClock> {
         child: DefaultTextStyle(
           style: TextStyle(
             color: _theme.text,
-            fontSize: widget._model.is24HourFormat ? 100 : 70,
           ),
-          child: Semantics.fromProperties(
-            properties: SemanticsProperties(
-              label: 'Digital clock showing a time of $timeText',
-              value: timeText,
-            ),
-            child: Text(timeText),
+          child: Stack(
+            children: <Widget>[
+              DefaultTextStyle(
+                style: TextStyle(
+                  color: _theme.text,
+                  fontSize: widget.model.is24HourFormat ? 100 : 70,
+                ),
+                child: Center(
+                  child: Semantics.fromProperties(
+                    properties: SemanticsProperties(
+                      label: 'Digital clock showing a time of $timeText',
+                      value: timeText,
+                    ),
+                    child: Text(timeText),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(_temperature),
+                ),
+              ),
+            ],
           ),
         ),
       ),

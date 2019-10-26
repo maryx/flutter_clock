@@ -32,13 +32,15 @@ class ClockCustomizer extends StatefulWidget {
 }
 
 class _ClockCustomizerState extends State<ClockCustomizer> {
-  String _mode = enumToString(Mode.light);
-  ClockModel _model = ClockModel();
+  var _mode = enumToString(Mode.light);
+  final _model = ClockModel();
+  final _weatherModel = WeatherModel();
 
   @override
   void initState() {
     super.initState();
     _model.addListener(_handleModelChange);
+    _weatherModel.addListener(_handleWeatherChange);
   }
 
   @override
@@ -46,6 +48,8 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     super.dispose();
     _model.removeListener(_handleModelChange);
     _model.dispose();
+    _weatherModel.removeListener(_handleWeatherChange);
+    _weatherModel.dispose();
   }
 
   void _handleModelChange() {
@@ -54,37 +58,40 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     });
   }
 
-  Widget _dropdownButton(Option option, String item, List<String> items) => DropdownButton<String>(
-        value: item,
-        icon: Icon(Icons.arrow_drop_down),
-        iconSize: 24,
-        style: TextStyle(color: Colors.deepPurple),
-        onChanged: (String selected) {
-          setState(() {
-            switch (option) {
-              case Option.mode:
-                _mode = selected;
-                _model.mode = stringToEnum(selected, Mode.values);
-                break;
-              case Option.weatherCondition:
-                _model.weatherModel.weatherCondition =
-                    stringToEnum(selected, WeatherCondition.values);
-                break;
-              case Option.temperatureUnit:
-                _model.weatherModel.unit = stringToEnum(selected, TemperatureUnit.values);
-                break;
-              default:
-                break;
-            }
-          });
-        },
-        items: items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      );
+  void _handleWeatherChange() => setState(() {});
+
+  Widget _dropdownButton(Option option, String item, List<String> items) {
+    return DropdownButton<String>(
+      value: item,
+      icon: Icon(Icons.arrow_drop_down),
+      iconSize: 24,
+      style: TextStyle(color: Colors.deepPurple),
+      onChanged: (String selected) {
+        setState(() {
+          switch (option) {
+            case Option.mode:
+              _mode = selected;
+              _model.mode = stringToEnum(selected, Mode.values);
+              break;
+            case Option.weatherCondition:
+              _weatherModel.weatherCondition = stringToEnum(selected, WeatherCondition.values);
+              break;
+            case Option.temperatureUnit:
+              _weatherModel.unit = stringToEnum(selected, TemperatureUnit.values);
+              break;
+            default:
+              break;
+          }
+        });
+      },
+      items: items.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
 
   Widget _checkbox(Option option, String title) {
     return Row(
@@ -118,19 +125,19 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       children: [
         Text('Weather:'),
         _spacer,
-        _dropdownButton(Option.weatherCondition, enumToString(_model.weatherModel.weatherCondition),
+        _dropdownButton(Option.weatherCondition, enumToString(_weatherModel.weatherCondition),
             enumsToStrings(WeatherCondition.values)),
         _spacer,
-        _dropdownButton(Option.temperatureUnit, enumToString(_model.weatherModel.unit),
+        _dropdownButton(Option.temperatureUnit, enumToString(_weatherModel.unit),
             enumsToStrings(TemperatureUnit.values))
       ],
     );
 
-    final Widget clockContainer = Container(
+    final clockContainer = Container(
       decoration: BoxDecoration(
         border: Border.all(width: 2, color: Colors.black),
       ),
-      child: widget._clockFace(_model),
+      child: widget._clockFace(_model, _weatherModel),
     );
 
     return Column(
