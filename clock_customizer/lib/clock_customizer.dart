@@ -4,18 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:model/model.dart';
 
-enum Option {
-  mode,
-  is24Hr,
-  temperature,
-  high,
-  low,
-  weatherCondition,
-  temperatureUnit,
-}
-
-const _spacer = SizedBox(width: 10);
-
 String enumToString(Object e) => e.toString().split('.').last;
 
 T stringToEnum<T>(String string, Iterable<T> enums) {
@@ -35,9 +23,9 @@ class ClockCustomizer extends StatefulWidget {
 }
 
 class _ClockCustomizerState extends State<ClockCustomizer> {
-  var _mode = enumToString(Mode.light);
   final _model = ClockModel();
   final _weatherModel = WeatherModel();
+  ThemeMode _themeMode = ThemeMode.system;
 
   @override
   void initState() {
@@ -55,111 +43,119 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     _weatherModel.dispose();
   }
 
-  void _handleModelChange() {
-    setState(() {
-      _mode = enumToString(_model.mode);
-    });
-  }
+  void _handleModelChange()  => setState(() {});
 
   void _handleWeatherChange() => setState(() {});
 
-  Widget _dropdownButton(Option option, String item, List<String> items) {
-    return DropdownButton<String>(
-      value: item,
-      icon: Icon(Icons.arrow_drop_down),
-      iconSize: 24,
-      style: TextStyle(color: Colors.deepPurple),
-      onChanged: (String selected) {
-        setState(() {
-          switch (option) {
-            case Option.mode:
-              _mode = selected;
-              _model.mode = stringToEnum(selected, Mode.values);
-              break;
-            case Option.weatherCondition:
-              _weatherModel.weatherCondition =
-                  stringToEnum(selected, WeatherCondition.values);
-              break;
-            case Option.temperatureUnit:
-              _weatherModel.unit =
-                  stringToEnum(selected, TemperatureUnit.values);
-              break;
-            default:
-              break;
-          }
-        });
-      },
-      items: items.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+  Widget _enumMenu<T>(String label, T value, List<T> items, ValueChanged<T> onChanged) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<T>(
+            value: value,
+            isDense: true,
+            onChanged: onChanged,
+            items: items.map((T item) {
+              return DropdownMenuItem<T>(
+                value: item,
+                child: Text(enumToString(item)),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _checkbox(Option option, String title) {
+  Widget _switch(String label, bool value, ValueChanged<bool> onChanged) {
     return Row(
-      children: [
-        Checkbox(
-            value: _model.is24HourFormat,
-            onChanged: (bool checked) {
-              setState(() {
-                _model.is24HourFormat = checked;
-              });
-            }),
-        Text(title),
+      children: <Widget>[
+        Expanded(child: Text(label)),
+        Switch(
+          value: value,
+          onChanged: onChanged,
+        ),
       ],
+    );
+  }
+
+  Widget _configDrawer(BuildContext context) {
+    return SafeArea(
+      child: Drawer(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: <Widget>[
+              _enumMenu('Theme', _themeMode, ThemeMode.values, (ThemeMode mode) {
+                setState(() {
+                  _themeMode = mode;
+                });
+              }),
+              _switch('24-hour format', _model.is24HourFormat, (bool value) {
+                setState(() {
+                  _model.is24HourFormat = value;
+                });
+              }),
+              _enumMenu('Weather', _weatherModel.weatherCondition, WeatherCondition.values, (WeatherCondition condition) {
+                setState(() {
+                  _weatherModel.weatherCondition = condition;
+                });
+              }),
+              _enumMenu('Units', _weatherModel.unit, TemperatureUnit.values, (TemperatureUnit unit) {
+                setState(() {
+                  _weatherModel.unit = unit;
+                });
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _configButton() {
+    return Builder(
+      builder: (BuildContext context) {
+        return IconButton(
+          icon: Icon(Icons.settings),
+          tooltip: 'Configure clock',
+          onPressed: () {
+            Scaffold.of(context).openEndDrawer();
+          },
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final clockOptions = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _dropdownButton(Option.mode, _mode, enumsToStrings(Mode.values)),
-        _spacer,
-        _checkbox(Option.is24Hr, '24-hour format'),
-        _spacer,
-      ],
-    );
-
-    final weatherOptions = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('Weather:'),
-        _spacer,
-        _dropdownButton(
-            Option.weatherCondition,
-            enumToString(_weatherModel.weatherCondition),
-            enumsToStrings(WeatherCondition.values)),
-        _spacer,
-        _dropdownButton(
-            Option.temperatureUnit,
-            enumToString(_weatherModel.unit),
-            enumsToStrings(TemperatureUnit.values))
-      ],
-    );
-
-    final clockContainer = AspectRatio(
-      aspectRatio: 5 / 3,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.black),
+    final clock = widget._clockFace(_model, _weatherModel);
+    return MaterialApp(
+      theme: ThemeData.from(colorScheme: const ColorScheme.light()),
+      darkTheme: ThemeData.from(colorScheme: const ColorScheme.dark()),
+      themeMode: _themeMode,
+      home: Scaffold(
+        endDrawer: _configDrawer(context),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              clock,
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Opacity(
+                  opacity: 0.70,
+                  child: _configButton(),
+                ),
+              ),
+            ],
+          ),
         ),
-        child: widget._clockFace(_model, _weatherModel),
       ),
-    );
-
-    return Column(
-      children: [
-        clockOptions,
-        SizedBox(height: 10),
-        weatherOptions,
-        SizedBox(height: 10),
-        Flexible(child: clockContainer),
-      ],
     );
   }
 }
