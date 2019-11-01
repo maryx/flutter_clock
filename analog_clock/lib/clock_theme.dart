@@ -7,17 +7,17 @@ enum _Element {
   hand,
 }
 
-const _light = {
+const Map<_Element, Color> _light = {
   _Element.background: Colors.white,
   _Element.hand: Colors.black,
 };
 
-const _dark = {
+const Map<_Element, Color> _dark = {
   _Element.background: Colors.black,
   _Element.hand: Colors.white,
 };
 
-const _themes = {
+const Map<Mode, Map<_Element, Color>> _themes = {
   Mode.light: _light,
   Mode.dark: _dark,
 };
