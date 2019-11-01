@@ -51,6 +51,7 @@ class _DigitalClockState extends State<DigitalClock> {
             style: TextStyle(
               color: _theme.text,
               fontSize: 160,
+    fontFamily: 'PressStart2P',
             ),
             child: ValueListenableBuilder(
               valueListenable: _dateTime,
