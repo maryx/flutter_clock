@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'package:model/model.dart';
@@ -17,7 +19,8 @@ const _spacer = SizedBox(width: 10);
 String enumToString(Object e) => e.toString().split('.').last;
 
 T stringToEnum<T>(String string, Iterable<T> enums) {
-  return enums.firstWhere((type) => type.toString().split('.').last == string, orElse: () => null);
+  return enums.firstWhere((type) => type.toString().split('.').last == string,
+      orElse: () => null);
 }
 
 List<String> enumsToStrings(List<Object> enums) =>
@@ -74,10 +77,12 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
               _model.mode = stringToEnum(selected, Mode.values);
               break;
             case Option.weatherCondition:
-              _weatherModel.weatherCondition = stringToEnum(selected, WeatherCondition.values);
+              _weatherModel.weatherCondition =
+                  stringToEnum(selected, WeatherCondition.values);
               break;
             case Option.temperatureUnit:
-              _weatherModel.unit = stringToEnum(selected, TemperatureUnit.values);
+              _weatherModel.unit =
+                  stringToEnum(selected, TemperatureUnit.values);
               break;
             default:
               break;
@@ -125,19 +130,26 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       children: [
         Text('Weather:'),
         _spacer,
-        _dropdownButton(Option.weatherCondition, enumToString(_weatherModel.weatherCondition),
+        _dropdownButton(
+            Option.weatherCondition,
+            enumToString(_weatherModel.weatherCondition),
             enumsToStrings(WeatherCondition.values)),
         _spacer,
-        _dropdownButton(Option.temperatureUnit, enumToString(_weatherModel.unit),
+        _dropdownButton(
+            Option.temperatureUnit,
+            enumToString(_weatherModel.unit),
             enumsToStrings(TemperatureUnit.values))
       ],
     );
 
-    final clockContainer = Container(
-      decoration: BoxDecoration(
-        border: Border.all(width: 2, color: Colors.black),
+    final clockContainer = AspectRatio(
+      aspectRatio: 5 / 3,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 2, color: Colors.black),
+        ),
+        child: widget._clockFace(_model, _weatherModel),
       ),
-      child: widget._clockFace(_model, _weatherModel),
     );
 
     return Column(
@@ -146,7 +158,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
         SizedBox(height: 10),
         weatherOptions,
         SizedBox(height: 10),
-        Expanded(child: clockContainer),
+        Flexible(child: clockContainer),
       ],
     );
   }
