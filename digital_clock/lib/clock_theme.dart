@@ -5,16 +5,19 @@ import 'package:model/model.dart';
 enum _Element {
   background,
   text,
+  shadow,
 }
 
 const _light = {
-  _Element.background: Colors.white,
-  _Element.text: Colors.black,
+  _Element.background: Colors.blue,
+  _Element.text: Colors.white,
+  _Element.shadow: Colors.black,
 };
 
 const _dark = {
-  _Element.background: Colors.black,
-  _Element.text: Colors.white,
+  _Element.background: Colors.blue,
+  _Element.text: Colors.black,
+  _Element.shadow: Colors.white30,
 };
 
 const _themes = {
@@ -27,4 +30,5 @@ class ClockTheme {
 
   Color get background => _themes[mode][_Element.background];
   Color get text => _themes[mode][_Element.text];
+  Color get shadow => _themes[mode][_Element.shadow];
 }

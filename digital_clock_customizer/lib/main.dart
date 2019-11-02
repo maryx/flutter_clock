@@ -24,8 +24,8 @@ void main() {
       home: Scaffold(
         body: SafeArea(
           child: ClockCustomizer(
-            (ClockModel model, WeatherModel weatherModel) => DigitalClock(model, weatherModel),
-          ),
+              (ClockModel model, WeatherModel weatherModel) =>
+                  DigitalClock(model, weatherModel)),
         ),
       ),
     ),

@@ -85,49 +85,54 @@ class _DigitalClockState extends State<DigitalClock> {
 
   @override
   Widget build(BuildContext context) {
-    final String timeText =
-        DateFormat(widget.model.is24HourFormat ? 'HH:mm' : 'h:mm')
-            .format(_dateTime)
-            .toLowerCase();
+    final hour =
+        DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
+    final minute = DateFormat('mm').format(_dateTime);
+
+    final defaultStyle = TextStyle(
+      color: _theme.text,
+      fontFamily: 'PressStart2P',
+      fontSize: 130,
+      shadows: [
+        Shadow(
+          blurRadius: 0,
+          color: _theme.shadow,
+          offset: Offset(10, 0),
+        ),
+      ],
+    );
+
+//    final hour = Center(
+//      child: Semantics.fromProperties(
+//        properties: SemanticsProperties(
+//          label: 'Time is $hour $minute',
+//          value: '$hour $minute',
+//        ),
+//        child: Text($hour),
+//      ),
+//    );
+//
+
+    final weather = Positioned(
+      left: 0,
+      bottom: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(_temperature),
+      ),
+    );
 
     return Container(
       color: _theme.background,
       child: Center(
         child: DefaultTextStyle(
-          style: TextStyle(
-            color: _theme.text,
-          ),
+          style: defaultStyle,
           child: Stack(
             children: <Widget>[
-              DefaultTextStyle(
-                style: TextStyle(
-                  color: _theme.text,
-                  fontSize: widget.model.is24HourFormat ? 100 : 70,
-                ),
-                child: Center(
-                  child: Semantics.fromProperties(
-                    properties: SemanticsProperties(
-                      label: 'Digital clock showing a time of $timeText',
-                      value: timeText,
-                    ),
-                    child: Text(
-                      timeText,
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontFamily: 'PressStart2P',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(_temperature),
-                ),
-              ),
+              Positioned(left: -16, top: 0, child: Text(hour)),
+              Positioned(right: -16, bottom: -16, child: Text(minute)),
+//              DefaultTextStyle(
+//                  style: defaultStyle.copyWith(fontSize: 40), child: weather),
             ],
           ),
         ),
