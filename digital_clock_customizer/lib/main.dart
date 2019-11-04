@@ -18,16 +18,6 @@ void main() {
     // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
-  runApp(
-    MaterialApp(
-      title: 'Digital Clock with Customizer',
-      home: Scaffold(
-        body: SafeArea(
-          child: ClockCustomizer(
-              (ClockModel model, WeatherModel weatherModel) =>
-                  DigitalClock(model, weatherModel)),
-        ),
-      ),
-    ),
-  );
+  runApp(ClockCustomizer((ClockModel model, WeatherModel weatherModel) =>
+      DigitalClock(model, weatherModel)));
 }

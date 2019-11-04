@@ -5,8 +5,6 @@ import 'package:flutter/semantics.dart';
 import 'package:intl/intl.dart';
 import 'package:model/model.dart';
 
-import 'clock_theme.dart';
-
 /// A very basic digital clock.
 ///
 /// You can do better than this!
@@ -23,7 +21,6 @@ class DigitalClock extends StatefulWidget {
 class _DigitalClockState extends State<DigitalClock> {
   DateTime _dateTime = DateTime.now();
   var _temperature = '';
-  ClockTheme _theme = ClockTheme();
   Timer _timer;
 
   @override
@@ -61,7 +58,7 @@ class _DigitalClockState extends State<DigitalClock> {
 
   void _updateModel() {
     setState(() {
-      _theme.mode = widget.model.mode;
+      // Just need to rebuild here
     });
   }
 
@@ -85,18 +82,21 @@ class _DigitalClockState extends State<DigitalClock> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+
     final hour =
         DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
     final minute = DateFormat('mm').format(_dateTime);
 
     final defaultStyle = TextStyle(
-      color: _theme.text,
+      color: colors.onBackground,
       fontFamily: 'PressStart2P',
       fontSize: 130,
       shadows: [
         Shadow(
           blurRadius: 0,
-          color: _theme.shadow,
+          color: colors.onBackground,
           offset: Offset(10, 0),
         ),
       ],
@@ -123,7 +123,7 @@ class _DigitalClockState extends State<DigitalClock> {
     );
 
     return Container(
-      color: _theme.background,
+      color: colors.background,
       child: Center(
         child: DefaultTextStyle(
           style: defaultStyle,
@@ -131,8 +131,7 @@ class _DigitalClockState extends State<DigitalClock> {
             children: <Widget>[
               Positioned(left: -16, top: 0, child: Text(hour)),
               Positioned(right: -16, bottom: -16, child: Text(minute)),
-//              DefaultTextStyle(
-//                  style: defaultStyle.copyWith(fontSize: 40), child: weather),
+              weather,
             ],
           ),
         ),
