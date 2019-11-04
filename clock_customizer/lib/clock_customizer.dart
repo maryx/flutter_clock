@@ -154,7 +154,6 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       theme: ThemeData.from(colorScheme: const ColorScheme.light()),
       darkTheme: ThemeData.from(colorScheme: const ColorScheme.dark()),
       themeMode: _themeMode,
-      showSemanticsDebugger: true,
       home: Scaffold(
         endDrawer: _configDrawer(context),
         body: SafeArea(
