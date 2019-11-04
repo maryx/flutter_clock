@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 import 'package:model/model.dart';
@@ -25,7 +23,7 @@ class ClockCustomizer extends StatefulWidget {
 class _ClockCustomizerState extends State<ClockCustomizer> {
   final _model = ClockModel();
   final _weatherModel = WeatherModel();
-  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode _themeMode = ThemeMode.light;
 
   @override
   void initState() {
@@ -43,11 +41,12 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     _weatherModel.dispose();
   }
 
-  void _handleModelChange()  => setState(() {});
+  void _handleModelChange() => setState(() {});
 
   void _handleWeatherChange() => setState(() {});
 
-  Widget _enumMenu<T>(String label, T value, List<T> items, ValueChanged<T> onChanged) {
+  Widget _enumMenu<T>(
+      String label, T value, List<T> items, ValueChanged<T> onChanged) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: InputDecorator(
@@ -90,9 +89,12 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
           padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: <Widget>[
-              _enumMenu('Theme', _themeMode, ThemeMode.values, (ThemeMode mode) {
+              _enumMenu('Theme', _themeMode,
+                  ThemeMode.values.toList()..remove(ThemeMode.system),
+                  (ThemeMode mode) {
                 setState(() {
                   _themeMode = mode;
+                  print('theme mode changing');
                 });
               }),
               _switch('24-hour format', _model.is24HourFormat, (bool value) {
@@ -100,12 +102,14 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
                   _model.is24HourFormat = value;
                 });
               }),
-              _enumMenu('Weather', _weatherModel.weatherCondition, WeatherCondition.values, (WeatherCondition condition) {
+              _enumMenu('Weather', _weatherModel.weatherCondition,
+                  WeatherCondition.values, (WeatherCondition condition) {
                 setState(() {
                   _weatherModel.weatherCondition = condition;
                 });
               }),
-              _enumMenu('Units', _weatherModel.unit, TemperatureUnit.values, (TemperatureUnit unit) {
+              _enumMenu('Units', _weatherModel.unit, TemperatureUnit.values,
+                  (TemperatureUnit unit) {
                 setState(() {
                   _weatherModel.unit = unit;
                 });
@@ -133,7 +137,19 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
 
   @override
   Widget build(BuildContext context) {
-    final clock = widget._clockFace(_model, _weatherModel);
+    final clock = AspectRatio(
+      aspectRatio: 5 / 3,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        child: widget._clockFace(_model, _weatherModel),
+      ),
+    );
+
     return MaterialApp(
       theme: ThemeData.from(colorScheme: const ColorScheme.light()),
       darkTheme: ThemeData.from(colorScheme: const ColorScheme.dark()),
@@ -148,7 +164,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
                 top: 0,
                 right: 0,
                 child: Opacity(
-                  opacity: 0.70,
+                  opacity: 0.7,
                   child: _configButton(),
                 ),
               ),
