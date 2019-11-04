@@ -1,9 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:intl/intl.dart';
 import 'package:model/model.dart';
+
+enum _Element {
+  background,
+  text,
+  shadow,
+}
+
+final _lightTheme = {
+  _Element.background: Colors.blue,
+  _Element.text: Colors.blue[50],
+  _Element.shadow: Colors.black,
+};
+
+final _darkTheme = {
+  _Element.background: Colors.blue[900],
+  _Element.text: Colors.white,
+  _Element.shadow: Colors.blue,
+};
 
 /// A very basic digital clock.
 ///
@@ -20,7 +37,6 @@ class DigitalClock extends StatefulWidget {
 
 class _DigitalClockState extends State<DigitalClock> {
   DateTime _dateTime = DateTime.now();
-  var _temperature = '';
   Timer _timer;
 
   @override
@@ -64,66 +80,54 @@ class _DigitalClockState extends State<DigitalClock> {
 
   void _updateWeatherModel() {
     setState(() {
-      _temperature = widget.weatherModel.temperatureString;
+      // Just need to rebuild here
     });
   }
 
   void _updateTime() {
     setState(() {
       _dateTime = DateTime.now();
-      // Update once per second, but make sure to do it at the beginning of each
-      // new second, so that the clock is accurate.
+      // Update once per minute. If you want to update per minute, use the code
+      // below.
       _timer = Timer(
-        Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
+        Duration(minutes: 1) -
+            Duration(milliseconds: _dateTime.second) -
+            Duration(milliseconds: _dateTime.millisecond),
         _updateTime,
       );
+      // Update once per second, but make sure to do it at the beginning of each
+      // new second, so that the clock is accurate.
+      // _timer = Timer(
+      //   Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
+      //   _updateTime,
+      // );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-
-
+    final colors = Theme.of(context).brightness == Brightness.light
+        ? _lightTheme
+        : _darkTheme;
     final hour =
         DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
     final minute = DateFormat('mm').format(_dateTime);
 
     final defaultStyle = TextStyle(
-      color: colors.onBackground,
+      color: colors[_Element.text],
       fontFamily: 'PressStart2P',
       fontSize: 130,
       shadows: [
         Shadow(
           blurRadius: 0,
-          color: colors.onBackground,
+          color: colors[_Element.shadow],
           offset: Offset(10, 0),
         ),
       ],
     );
 
-//    final hour = Center(
-//      child: Semantics.fromProperties(
-//        properties: SemanticsProperties(
-//          label: 'Time is $hour $minute',
-//          value: '$hour $minute',
-//        ),
-//        child: Text($hour),
-//      ),
-//    );
-//
-
-    final weather = Positioned(
-      left: 0,
-      bottom: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(_temperature),
-      ),
-    );
-
     return Container(
-      color: colors.background,
+      color: colors[_Element.background],
       child: Center(
         child: DefaultTextStyle(
           style: defaultStyle,
@@ -131,7 +135,7 @@ class _DigitalClockState extends State<DigitalClock> {
             children: <Widget>[
               Positioned(left: -16, top: 0, child: Text(hour)),
               Positioned(right: -16, bottom: -16, child: Text(minute)),
-              weather,
+              //weather,
             ],
           ),
         ),
