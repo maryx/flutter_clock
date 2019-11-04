@@ -23,7 +23,7 @@ class ClockCustomizer extends StatefulWidget {
 class _ClockCustomizerState extends State<ClockCustomizer> {
   final _model = ClockModel();
   final _weatherModel = WeatherModel();
-  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode _themeMode = ThemeMode.light;
 
   @override
   void initState() {
@@ -89,10 +89,12 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
           padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: <Widget>[
-              _enumMenu('Theme', _themeMode, ThemeMode.values,
+              _enumMenu('Theme', _themeMode,
+                  ThemeMode.values.toList()..remove(ThemeMode.system),
                   (ThemeMode mode) {
                 setState(() {
                   _themeMode = mode;
+                  print('theme mode changing');
                 });
               }),
               _switch('24-hour format', _model.is24HourFormat, (bool value) {
@@ -139,7 +141,10 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       aspectRatio: 5 / 3,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.black),
+          border: Border.all(
+            width: 2,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
         child: widget._clockFace(_model, _weatherModel),
       ),
