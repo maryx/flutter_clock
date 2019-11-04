@@ -14,20 +14,6 @@ class ClockModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  get mode => _mode;
-  Mode _mode = Mode.light;
-  set mode(Mode mode) {
-    if (_mode != mode) {
-      _mode = mode;
-      notifyListeners();
-    }
-  }
-}
-
-enum Mode {
-  light,
-  dark,
 }
 
 /// This is a model for the weather portion of the
@@ -68,7 +54,7 @@ class WeatherModel extends ChangeNotifier {
   }
 
   /// Weather condition text for current weather. Example: Cloudy, Sunny, etc.
-  get weatherCondition => _weatherCondition;
+  WeatherCondition get weatherCondition => _weatherCondition;
   WeatherCondition _weatherCondition = WeatherCondition.sunny;
   set weatherCondition(WeatherCondition weatherCondition) {
     if (weatherCondition != _weatherCondition) {
@@ -78,7 +64,7 @@ class WeatherModel extends ChangeNotifier {
   }
 
   /// Temperature unit. For example: Fahrenheit.
-  get unit => _unit;
+  TemperatureUnit get unit => _unit;
   TemperatureUnit _unit = TemperatureUnit.fahrenheit;
   set unit(TemperatureUnit unit) {
     if (unit != _unit) {

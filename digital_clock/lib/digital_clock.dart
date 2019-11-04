@@ -5,8 +5,6 @@ import 'package:flutter/semantics.dart';
 import 'package:intl/intl.dart';
 import 'package:model/model.dart';
 
-import 'clock_theme.dart';
-
 /// A very basic digital clock.
 ///
 /// You can do better than this!
@@ -23,7 +21,6 @@ class DigitalClock extends StatefulWidget {
 class _DigitalClockState extends State<DigitalClock> {
   DateTime _dateTime = DateTime.now();
   var _temperature = '';
-  ClockTheme _theme = ClockTheme();
   Timer _timer;
 
   @override
@@ -59,7 +56,7 @@ class _DigitalClockState extends State<DigitalClock> {
 
   void _updateModel() {
     setState(() {
-      _theme.mode = widget.model.mode;
+      // Just need to rebuild here
     });
   }
 
@@ -86,19 +83,21 @@ class _DigitalClockState extends State<DigitalClock> {
     final String timeText = DateFormat(widget.model.is24HourFormat ? 'HH:mm:ss' : 'h:mm:ss a')
         .format(_dateTime)
         .toLowerCase();
+    final colors = Theme.of(context).colorScheme;
 
     return Container(
-      color: _theme.background,
+      color: colors.background,
       child: Center(
         child: DefaultTextStyle(
           style: TextStyle(
-            color: _theme.text,
+            color: colors.onBackground,
           ),
           child: Stack(
             children: <Widget>[
+
               DefaultTextStyle(
                 style: TextStyle(
-                  color: _theme.text,
+                  color: colors.onBackground,
                   fontSize: widget.model.is24HourFormat ? 100 : 70,
                 ),
                 child: Center(

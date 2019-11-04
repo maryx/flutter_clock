@@ -5,7 +5,6 @@ import 'package:flutter/semantics.dart';
 import 'package:intl/intl.dart';
 import 'package:vector_math/vector_math_64.dart' show radians;
 
-import 'clock_theme.dart';
 import 'hand.dart';
 
 /// Total distance travelled by a second/minute hand, each second/minute.
@@ -30,7 +29,6 @@ class AnalogClock extends StatefulWidget {
 class _AnalogClockState extends State<AnalogClock> {
   var _now = DateTime.now();
   var _temperature = '';
-  var _theme = ClockTheme();
   Timer _timer;
 
   @override
@@ -67,7 +65,7 @@ class _AnalogClockState extends State<AnalogClock> {
 
   void _updateModel() {
     setState(() {
-      _theme.mode = widget.model.mode;
+      // Just need to rebuild here
     });
   }
 
@@ -92,13 +90,15 @@ class _AnalogClockState extends State<AnalogClock> {
   @override
   Widget build(BuildContext context) {
     final time = DateFormat.Hm().format(DateTime.now());
+    final colors = Theme.of(context).colorScheme;
+    final handColor = colors.onBackground;
     return Semantics.fromProperties(
       properties: SemanticsProperties(
         label: 'Analog clock with hour, minute, and second hands, showing a time of $time',
         value: time,
       ),
       child: Container(
-        color: _theme.background,
+        color: colors.background,
         child: Stack(
           children: [
             ContainerHand(
@@ -107,17 +107,17 @@ class _AnalogClockState extends State<AnalogClock> {
               angleRadians: _now.hour * radiansPerHour + (_now.minute / 60) * radiansPerHour,
               child: Transform.translate(
                 offset: Offset(0.0, -50.0),
-                child: Container(width: 10, height: 100, color: _theme.hand),
+                child: Container(width: 10, height: 100, color: handColor),
               ),
             ),
             DrawnHand(
-              color: _theme.hand,
+              color: handColor,
               thickness: 8,
               size: 0.5,
               angleRadians: _now.minute * radiansPerTick,
             ),
             DrawnHand(
-              color: _theme.hand,
+              color: handColor,
               thickness: 4,
               size: 0.9,
               angleRadians: _now.second * radiansPerTick,
