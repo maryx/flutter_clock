@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter_clock_helper/model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:model/model.dart';
 
 enum _Element {
   background,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:model/model.dart';
+import 'model.dart';
 
 String enumToString(Object e) => e.toString().split('.').last;
 
@@ -94,7 +94,6 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
                   (ThemeMode mode) {
                 setState(() {
                   _themeMode = mode;
-                  print('theme mode changing');
                 });
               }),
               _switch('24-hour format', _model.is24HourFormat, (bool value) {

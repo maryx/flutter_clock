@@ -5,6 +5,8 @@ import 'package:flutter_clock_helper/model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'analog_clock.dart';
+
 // TODO: If you want to use your own clock, replace
 // `AnalogClock(model: model, weatherModel: weatherModel)` with your clock widget.
 void main() {

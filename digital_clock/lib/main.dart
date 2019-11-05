@@ -1,13 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter_clock_helper/clock_customizer.dart';
+import 'package:flutter_clock_helper/model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:clock_customizer/clock_customizer.dart';
 
-// TODO: If you want to use your own clock package, import it here and
-// in pubspec.yaml
-import 'package:digital_clock/digital_clock.dart';
-import 'package:model/model.dart';
+import 'digital_clock.dart';
 
 // TODO: If you want to use your own clock, replace `DigitalClock(model)`
 // with your clock widget.
