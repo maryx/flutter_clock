@@ -87,7 +87,7 @@ class _DigitalClockState extends State<DigitalClock> {
   void _updateTime() {
     setState(() {
       _dateTime = DateTime.now();
-      // Update once per minute. If you want to update per minute, use the code
+      // Update once per minute. If you want to update every second, use the code
       // below.
       _timer = Timer(
         Duration(minutes: 1) -
