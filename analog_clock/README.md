@@ -1,4 +1,4 @@
-# analog_clock_customizer
+# analog_clock
 
 A new Flutter project.
 

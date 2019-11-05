@@ -1,5 +1,5 @@
-name: analog_clock_customizer
-description: Analog clock with customizations.
+name: analog_clock
+description: Analog clock.
 version: 1.0.0+1
 
 environment:
@@ -8,14 +8,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # TODO: If you want to use your own clock package, add it here.
-  analog_clock:
-    path: ../analog_clock
-  clock_customizer:
-    path: ../clock_customizer
-  model:
-    path: ../model
-
+  flutter_clock_helper:
+    path: ../flutter_clock_helper
   cupertino_icons: ^0.1.2
 
 dev_dependencies:

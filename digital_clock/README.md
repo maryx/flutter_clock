@@ -1,4 +1,4 @@
-# digital_clock_customizer
+# digital_clock
 
 A new Flutter project.
 

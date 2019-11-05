@@ -1,5 +1,5 @@
-name: digital_clock_customizer
-description: Digital clock with customizations.
+name: digital_clock
+description: Digital clock.
 version: 1.0.0+1
 
 environment:
@@ -8,14 +8,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  clock_customizer:
-    path: ../clock_customizer
-  # TODO: If you want to use your own clock package, add it here.
-  digital_clock:
-    path: ../digital_clock
-  model:
-    path: ../model
-
+  flutter_clock_helper:
+    path: ../flutter_clock_helper
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
@@ -27,5 +21,4 @@ flutter:
   fonts:
     - family: PressStart2P
       fonts:
-        - asset: packages/digital_clock/third_party/PressStart2P-Regular.ttf
-
+        - asset: lib/third_party/PressStart2P-Regular.ttf
