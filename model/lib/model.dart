@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 /// This is the model that contains the options for the clock.
 ///
@@ -11,6 +12,14 @@ class ClockModel extends ChangeNotifier {
   set is24HourFormat(bool is24HourFormat) {
     if (_is24HourFormat != is24HourFormat) {
       _is24HourFormat = is24HourFormat;
+      notifyListeners();
+    }
+  }
+  get mode => _mode;
+  ThemeMode _mode = ThemeMode.light;
+  set mode(ThemeMode mode) {
+    if (_mode != mode) {
+      _mode = mode;
       notifyListeners();
     }
   }

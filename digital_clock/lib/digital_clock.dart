@@ -1,9 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:intl/intl.dart';
 import 'package:model/model.dart';
+
+enum _Element {
+  background,
+  text,
+  shadow,
+}
+
+final _lightTheme = {
+  _Element.background: Colors.blue,
+  _Element.text: Colors.blue[50],
+  _Element.shadow: Colors.black,
+};
+
+final _darkTheme = {
+  _Element.background: Colors.blue[900],
+  _Element.text: Colors.white,
+  _Element.shadow: Colors.blue,
+};
 
 /// A very basic digital clock.
 ///
@@ -20,7 +37,6 @@ class DigitalClock extends StatefulWidget {
 
 class _DigitalClockState extends State<DigitalClock> {
   DateTime _dateTime = DateTime.now();
-  var _temperature = '';
   Timer _timer;
 
   @override
@@ -49,8 +65,10 @@ class _DigitalClockState extends State<DigitalClock> {
   @override
   void dispose() {
     _timer?.cancel();
-    widget.model.addListener(_updateModel);
+    widget.model.removeListener(_updateModel);
     widget.weatherModel.removeListener(_updateWeatherModel);
+    widget.model.dispose();
+    widget.weatherModel.dispose();
     super.dispose();
   }
 
@@ -62,62 +80,62 @@ class _DigitalClockState extends State<DigitalClock> {
 
   void _updateWeatherModel() {
     setState(() {
-      _temperature = widget.weatherModel.temperatureString;
+      // Just need to rebuild here
     });
   }
 
   void _updateTime() {
     setState(() {
       _dateTime = DateTime.now();
-      // Update once per second, but make sure to do it at the beginning of each
-      // new second, so that the clock is accurate.
+      // Update once per minute. If you want to update every second, use the code
+      // below.
       _timer = Timer(
-        Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
+        Duration(minutes: 1) -
+            Duration(milliseconds: _dateTime.second) -
+            Duration(milliseconds: _dateTime.millisecond),
         _updateTime,
       );
+      // Update once per second, but make sure to do it at the beginning of each
+      // new second, so that the clock is accurate.
+      // _timer = Timer(
+      //   Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
+      //   _updateTime,
+      // );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final String timeText = DateFormat(widget.model.is24HourFormat ? 'HH:mm:ss' : 'h:mm:ss a')
-        .format(_dateTime)
-        .toLowerCase();
-    final colors = Theme.of(context).colorScheme;
+    final colors = Theme.of(context).brightness == Brightness.light
+        ? _lightTheme
+        : _darkTheme;
+    final hour =
+        DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
+    final minute = DateFormat('mm').format(_dateTime);
+
+    final defaultStyle = TextStyle(
+      color: colors[_Element.text],
+      fontFamily: 'PressStart2P',
+      fontSize: 130,
+      shadows: [
+        Shadow(
+          blurRadius: 0,
+          color: colors[_Element.shadow],
+          offset: Offset(10, 0),
+        ),
+      ],
+    );
 
     return Container(
-      color: colors.background,
+      color: colors[_Element.background],
       child: Center(
         child: DefaultTextStyle(
-          style: TextStyle(
-            color: colors.onBackground,
-          ),
+          style: defaultStyle,
           child: Stack(
             children: <Widget>[
-
-              DefaultTextStyle(
-                style: TextStyle(
-                  color: colors.onBackground,
-                  fontSize: widget.model.is24HourFormat ? 100 : 70,
-                ),
-                child: Center(
-                  child: Semantics.fromProperties(
-                    properties: SemanticsProperties(
-                      label: 'Digital clock showing a time of $timeText',
-                      value: timeText,
-                    ),
-                    child: Text(timeText),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(_temperature),
-                ),
-              ),
+              Positioned(left: -16, top: 0, child: Text(hour)),
+              Positioned(right: -16, bottom: -16, child: Text(minute)),
+              //weather,
             ],
           ),
         ),
