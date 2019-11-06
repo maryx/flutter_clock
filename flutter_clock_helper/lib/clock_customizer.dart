@@ -1,20 +1,37 @@
+// Copyright 2019 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 import 'model.dart';
 
-String enumToString(Object e) => e.toString().split('.').last;
+/// Returns a clock [Widget] with [ClockModel].
+///
+/// Example:
+///   final myClockBuilder = (ClockModel model) => AnalogClock(model);
+///
+/// Contestants should not edit this.
+typedef Widget ClockBuilder(ClockModel model, WeatherModel weatherModel);
 
-T stringToEnum<T>(String string, Iterable<T> enums) {
-  return enums.firstWhere((type) => type.toString().split('.').last == string,
-      orElse: () => null);
-}
-
-List<String> enumsToStrings(List<Object> enums) =>
-    enums.map((e) => e.toString().split('.').last).toList(growable: false);
-
+/// Wrapper for clock widget to allow for customizations.
+///
+/// Puts clock in landscape orientation with an aspect ratio of 5:3.
+/// Provides drawer where users can customize the data that is sent to the
+/// clock.
+///
+/// To use the [ClockCustomizer], pass your clock into it, via a ClockBuilder.
+/// ```
+///   final myClockBuilder = (ClockModel model) => AnalogClock(model);
+///   return ClockCustomizer(myClockBuilder);
+/// ```
+///
+/// Contestants should not edit this.
 class ClockCustomizer extends StatefulWidget {
-  final dynamic _clockFace;
-  ClockCustomizer(this._clockFace);
+  /// Clock widget with [ClockModel] to update and display.
+  final ClockBuilder _clock;
+
+  const ClockCustomizer(this._clock);
 
   @override
   _ClockCustomizerState createState() => _ClockCustomizerState();
@@ -34,11 +51,11 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
 
   @override
   void dispose() {
-    super.dispose();
     _model.removeListener(_handleModelChange);
     _model.dispose();
     _weatherModel.removeListener(_handleWeatherChange);
     _weatherModel.dispose();
+    super.dispose();
   }
 
   void _handleModelChange() => setState(() {});
@@ -61,7 +78,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
             items: items.map((T item) {
               return DropdownMenuItem<T>(
                 value: item,
-                child: Text(enumToString(item)),
+                child: Text(_enumToString(item)),
               );
             }).toList(),
           ),
@@ -142,10 +159,11 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
         decoration: BoxDecoration(
           border: Border.all(
             width: 2,
+            // TODO use onBackground.
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        child: widget._clockFace(_model, _weatherModel),
+        child: widget._clock(_model, _weatherModel),
       ),
     );
 
@@ -159,6 +177,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
           child: Stack(
             children: [
               clock,
+              // TODO put icon outside of clock.
               Positioned(
                 top: 0,
                 right: 0,
@@ -174,3 +193,13 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     );
   }
 }
+
+String _enumToString(Object e) => e.toString().split('.').last;
+
+T _stringToEnum<T>(String string, Iterable<T> enums) {
+  return enums.firstWhere((type) => type.toString().split('.').last == string,
+      orElse: () => null);
+}
+
+List<String> _enumsToStrings(List<Object> enums) =>
+    enums.map((e) => e.toString().split('.').last).toList(growable: false);

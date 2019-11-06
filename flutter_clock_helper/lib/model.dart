@@ -1,3 +1,7 @@
+// Copyright 2019 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +10,8 @@ import 'package:flutter/material.dart';
 /// It is a [ChangeNotifier], so use [ChangeNotifier.addListener] to listen to
 /// changes to the model. Be sure to call [ChangeNotifier.removeListener] in
 /// your `dispose` method.
+///
+/// Contestants should not edit this.
 class ClockModel extends ChangeNotifier {
   get is24HourFormat => _is24HourFormat;
   bool _is24HourFormat = true;
@@ -25,7 +31,7 @@ class ClockModel extends ChangeNotifier {
   }
 }
 
-/// This is a model for the weather portion of the
+/// This is a model for the weather portion of the clock.
 class WeatherModel extends ChangeNotifier {
   /// Current temperature string. For example: 59°
   get temperature => _convertFromCelsius(_temperature);
