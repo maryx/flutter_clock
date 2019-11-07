@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'analog_clock.dart';
 
 // TODO: If you want to use your own clock, replace
-// `AnalogClock(model: model, weatherModel: weatherModel)` with your clock widget.
+// `AnalogClock(model: model)` with your clock widget.
 void main() {
   /// A temporary measure until TargetPlatform supports macOS.
   if (Platform.isMacOS) {
@@ -16,5 +16,5 @@ void main() {
     // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
-  runApp(ClockCustomizer((ClockModel model, WeatherModel weatherModel) => AnalogClock(model, weatherModel)));
+  runApp(ClockCustomizer((ClockModel model) => AnalogClock(model)));
 }

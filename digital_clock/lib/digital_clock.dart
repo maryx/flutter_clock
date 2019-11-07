@@ -26,10 +26,9 @@ final _darkTheme = {
 ///
 /// You can do better than this!
 class DigitalClock extends StatefulWidget {
-  const DigitalClock(this.model, this.weatherModel);
+  const DigitalClock(this.model);
 
   final ClockModel model;
-  final WeatherModel weatherModel;
 
   @override
   _DigitalClockState createState() => _DigitalClockState();
@@ -43,10 +42,8 @@ class _DigitalClockState extends State<DigitalClock> {
   void initState() {
     super.initState();
     widget.model.addListener(_updateModel);
-    widget.weatherModel.addListener(_updateWeatherModel);
     _updateTime();
     _updateModel();
-    _updateWeatherModel();
   }
 
   @override
@@ -56,29 +53,17 @@ class _DigitalClockState extends State<DigitalClock> {
       oldWidget.model.removeListener(_updateModel);
       widget.model.addListener(_updateModel);
     }
-    if (widget.weatherModel != oldWidget.weatherModel) {
-      oldWidget.weatherModel.removeListener(_updateWeatherModel);
-      widget.weatherModel.addListener(_updateWeatherModel);
-    }
   }
 
   @override
   void dispose() {
     _timer?.cancel();
     widget.model.removeListener(_updateModel);
-    widget.weatherModel.removeListener(_updateWeatherModel);
     widget.model.dispose();
-    widget.weatherModel.dispose();
     super.dispose();
   }
 
   void _updateModel() {
-    setState(() {
-      // Just need to rebuild here
-    });
-  }
-
-  void _updateWeatherModel() {
     setState(() {
       // Just need to rebuild here
     });
@@ -135,7 +120,6 @@ class _DigitalClockState extends State<DigitalClock> {
             children: <Widget>[
               Positioned(left: -16, top: 0, child: Text(hour)),
               Positioned(right: -16, bottom: -16, child: Text(minute)),
-              //weather,
             ],
           ),
         ),
