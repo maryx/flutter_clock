@@ -158,7 +158,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
         decoration: BoxDecoration(
           border: Border.all(
             width: 2,
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).unselectedWidgetColor,
           ),
         ),
         child: widget._clockFace(_model),
@@ -166,8 +166,8 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     );
 
     return MaterialApp(
-      theme: ThemeData.from(colorScheme: const ColorScheme.light()),
-      darkTheme: ThemeData.from(colorScheme: const ColorScheme.dark()),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
       home: Scaffold(
         resizeToAvoidBottomPadding: false,
