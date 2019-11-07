@@ -171,7 +171,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       darkTheme: ThemeData.from(colorScheme: const ColorScheme.dark()),
       themeMode: _themeMode,
       home: Scaffold(
-        resizeToAvoidBottomPadding: true,
+        resizeToAvoidBottomPadding: false,
         endDrawer: _configDrawer(context),
         body: SafeArea(
           child: Stack(

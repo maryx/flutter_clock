@@ -61,7 +61,7 @@ class _AnalogClockState extends State<AnalogClock> {
   void _updateModel() {
     setState(() {
       _temperature = widget.model.temperatureString;
-      _temperatureRange = '${widget.model.lowString} - ${widget.model.highString}';
+      _temperatureRange = '(${widget.model.low} - ${widget.model.highString})';
       _condition = widget.model.weatherString;
       _location = widget.model.location;
     });
@@ -84,12 +84,15 @@ class _AnalogClockState extends State<AnalogClock> {
     final time = DateFormat.Hm().format(DateTime.now());
     final colors = Theme.of(context).colorScheme;
     final handColor = colors.onBackground;
-    final weatherInfo = Column(children: [
-      Text(_temperature),
-      Text(_temperatureRange),
-      Text(_condition),
-      Text(_location),
-    ]);
+    final weatherInfo = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(_temperature),
+        Text(_temperatureRange),
+        Text(_condition),
+        Text(_location),
+      ],
+    );
 
     return Semantics.fromProperties(
       properties: SemanticsProperties(
