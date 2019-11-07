@@ -21,10 +21,9 @@ final radiansPerHour = radians(360 / 12);
 ///
 /// You can do better than this!
 class AnalogClock extends StatefulWidget {
-  const AnalogClock(this.model, this.weatherModel);
+  const AnalogClock(this.model);
 
   final model;
-  final weatherModel;
 
   @override
   _AnalogClockState createState() => _AnalogClockState();
@@ -39,11 +38,9 @@ class _AnalogClockState extends State<AnalogClock> {
   void initState() {
     super.initState();
     widget.model.addListener(_updateModel);
-    widget.weatherModel.addListener(_updateWeatherModel);
     // Set the initial values.
     _updateTime();
     _updateModel();
-    _updateWeatherModel();
   }
 
   @override
@@ -53,29 +50,18 @@ class _AnalogClockState extends State<AnalogClock> {
       oldWidget.model.removeListener(_updateModel);
       widget.model.addListener(_updateModel);
     }
-    if (widget.weatherModel != oldWidget.weatherModel) {
-      oldWidget.weatherModel.removeListener(_updateWeatherModel);
-      widget.weatherModel.addListener(_updateWeatherModel);
-    }
   }
 
   @override
   void dispose() {
     _timer?.cancel();
     widget.model.removeListener(_updateModel);
-    widget.weatherModel.removeListener(_updateWeatherModel);
     super.dispose();
   }
 
   void _updateModel() {
     setState(() {
       // Just need to rebuild here
-    });
-  }
-
-  void _updateWeatherModel() {
-    setState(() {
-      _temperature = widget.weatherModel.temperatureString;
     });
   }
 
@@ -98,7 +84,8 @@ class _AnalogClockState extends State<AnalogClock> {
     final handColor = colors.onBackground;
     return Semantics.fromProperties(
       properties: SemanticsProperties(
-        label: 'Analog clock with hour, minute, and second hands, showing a time of $time',
+        label:
+            'Analog clock with hour, minute, and second hands, showing a time of $time',
         value: time,
       ),
       child: Container(
@@ -108,7 +95,8 @@ class _AnalogClockState extends State<AnalogClock> {
             ContainerHand(
               color: Colors.transparent,
               size: 0.8,
-              angleRadians: _now.hour * radiansPerHour + (_now.minute / 60) * radiansPerHour,
+              angleRadians: _now.hour * radiansPerHour +
+                  (_now.minute / 60) * radiansPerHour,
               child: Transform.translate(
                 offset: Offset(0.0, -50.0),
                 child: Container(width: 10, height: 100, color: handColor),

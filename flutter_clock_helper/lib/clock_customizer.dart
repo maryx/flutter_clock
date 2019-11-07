@@ -12,7 +12,7 @@ import 'model.dart';
 ///   final myClockBuilder = (ClockModel model) => AnalogClock(model);
 ///
 /// Contestants should not edit this.
-typedef Widget ClockBuilder(ClockModel model, WeatherModel weatherModel);
+typedef Widget ClockBuilder(ClockModel model);
 
 /// Wrapper for clock widget to allow for customizations.
 ///
@@ -39,28 +39,22 @@ class ClockCustomizer extends StatefulWidget {
 
 class _ClockCustomizerState extends State<ClockCustomizer> {
   final _model = ClockModel();
-  final _weatherModel = WeatherModel();
   ThemeMode _themeMode = ThemeMode.light;
 
   @override
   void initState() {
     super.initState();
     _model.addListener(_handleModelChange);
-    _weatherModel.addListener(_handleWeatherChange);
   }
 
   @override
   void dispose() {
     _model.removeListener(_handleModelChange);
     _model.dispose();
-    _weatherModel.removeListener(_handleWeatherChange);
-    _weatherModel.dispose();
     super.dispose();
   }
 
   void _handleModelChange() => setState(() {});
-
-  void _handleWeatherChange() => setState(() {});
 
   Widget _enumMenu<T>(
       String label, T value, List<T> items, ValueChanged<T> onChanged) {
@@ -118,16 +112,17 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
                   _model.is24HourFormat = value;
                 });
               }),
-              _enumMenu('Weather', _weatherModel.weatherCondition,
-                  WeatherCondition.values, (WeatherCondition condition) {
+              _enumMenu(
+                  'Weather', _model.weatherCondition, WeatherCondition.values,
+                  (WeatherCondition condition) {
                 setState(() {
-                  _weatherModel.weatherCondition = condition;
+                  _model.weatherCondition = condition;
                 });
               }),
-              _enumMenu('Units', _weatherModel.unit, TemperatureUnit.values,
+              _enumMenu('Units', _model.unit, TemperatureUnit.values,
                   (TemperatureUnit unit) {
                 setState(() {
-                  _weatherModel.unit = unit;
+                  _model.unit = unit;
                 });
               }),
             ],
@@ -163,7 +158,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        child: widget._clock(_model, _weatherModel),
+        child: widget._clock(_model),
       ),
     );
 

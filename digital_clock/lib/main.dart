@@ -20,6 +20,5 @@ void main() {
     // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
-  runApp(ClockCustomizer((ClockModel model, WeatherModel weatherModel) =>
-      DigitalClock(model, weatherModel)));
+  runApp(ClockCustomizer((ClockModel model) => DigitalClock(model)));
 }
