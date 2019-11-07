@@ -41,24 +41,21 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
 
   Widget _enumMenu<T>(
       String label, T value, List<T> items, ValueChanged<T> onChanged) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: label,
-        ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<T>(
-            value: value,
-            isDense: true,
-            onChanged: onChanged,
-            items: items.map((T item) {
-              return DropdownMenuItem<T>(
-                value: item,
-                child: Text(enumToString(item)),
-              );
-            }).toList(),
-          ),
+    return InputDecorator(
+      decoration: InputDecoration(
+        labelText: label,
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<T>(
+          value: value,
+          isDense: true,
+          onChanged: onChanged,
+          items: items.map((T item) {
+            return DropdownMenuItem<T>(
+              value: item,
+              child: Text(enumToString(item)),
+            );
+          }).toList(),
         ),
       ),
     );
@@ -76,11 +73,12 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     );
   }
 
-  Widget _textField(String label, String hint, ValueChanged<Null> onChanged) {
+  Widget _textField(
+      String currentValue, String label, ValueChanged<Null> onChanged) {
     return TextField(
       decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
+        hintText: currentValue,
+        helperText: label,
       ),
       onChanged: onChanged,
     );
@@ -94,12 +92,13 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                _textField('Location', 'e.g. city', (String location) {
+                _textField(_model.location, 'Location', (String location) {
                   setState(() {
                     _model.location = location;
                   });
                 }),
-                _textField('Temperature', 'e.g. 22', (String temperature) {
+                _textField(_model.temperature.toString(), 'Temperature',
+                    (String temperature) {
                   setState(() {
                     _model.temperature = double.parse(temperature);
                   });

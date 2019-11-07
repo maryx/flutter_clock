@@ -16,9 +16,7 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Current location String.
-  ///
-  /// For example: Mountain View, CA.
+  /// Current location String, e.g. 'Mountain View, CA'.
   get location => _location;
   String _location = 'Mountain View, CA';
   set location(String location) {
@@ -28,24 +26,24 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Current temperature string. For example: 59°F.
+  /// Current temperature string, e.g. '22°C'.
   get temperature => _convertFromCelsius(_temperature);
   // Stored in degrees celsius, and converted based on the current unit setting.
-  num _temperature = 22;
+  num _temperature = 22.0;
   set temperature(num temperature) {
     temperature = _convertToCelsius(temperature);
     if (temperature != _temperature) {
       _temperature = temperature;
-      _low = _temperature - 3;
-      _high = _temperature + 4;
+      _low = _temperature - 3.0;
+      _high = _temperature + 4.0;
       notifyListeners();
     }
   }
 
-  /// Daily high temperature. For example: 65°F.
+  /// Daily high temperature, e.g. '26'.
   get high => _convertFromCelsius(_high);
   // Stored in degrees celsius, and converted based on the current unit setting.
-  num _high = 26;
+  num _high = 26.0;
   set high(num high) {
     high = _convertToCelsius(high);
     if (high != _high) {
@@ -54,9 +52,9 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Daily low temperature. For example: 54°F.
+  /// Daily low temperature, e.g. '19'.
   get low => _convertFromCelsius(_low);
-  num _low = 19;
+  num _low = 19.0;
   set low(num low) {
     low = _convertToCelsius(low);
     if (low != _low) {
@@ -65,7 +63,7 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Weather condition text for current weather. Example: Cloudy, Sunny, etc.
+  /// Weather condition text for current weather, e.g. 'cloudy'.
   WeatherCondition get weatherCondition => _weatherCondition;
   WeatherCondition _weatherCondition = WeatherCondition.sunny;
   set weatherCondition(WeatherCondition weatherCondition) {
@@ -77,9 +75,9 @@ class ClockModel extends ChangeNotifier {
 
   String get weatherString => enumToString(weatherCondition);
 
-  /// Temperature unit. For example: Fahrenheit.
+  /// Temperature unit, e.g. 'celsius'.
   TemperatureUnit get unit => _unit;
-  TemperatureUnit _unit = TemperatureUnit.fahrenheit;
+  TemperatureUnit _unit = TemperatureUnit.celsius;
   set unit(TemperatureUnit unit) {
     if (unit != _unit) {
       _unit = unit;
@@ -134,12 +132,12 @@ class ClockModel extends ChangeNotifier {
 
 /// Weather condition in English.
 enum WeatherCondition {
-  sunny,
-  windy,
   cloudy,
-  snowy,
   rainy,
+  snowy,
+  sunny,
   thunderstorm,
+  windy,
 }
 
 /// Temperature unit.
