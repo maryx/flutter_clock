@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// This is the model that contains the options for the clock.
+/// This is the model that contains customization options for the clock.
 ///
 /// It is a [ChangeNotifier], so use [ChangeNotifier.addListener] to listen to
 /// changes to the model. Be sure to call [ChangeNotifier.removeListener] in
@@ -15,19 +15,14 @@ class ClockModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-  get mode => _mode;
-  ThemeMode _mode = ThemeMode.light;
-  set mode(ThemeMode mode) {
-    if (_mode != mode) {
-      _mode = mode;
-      notifyListeners();
-    }
-  }
-}
 
-/// This is a model for the weather portion of the
-class WeatherModel extends ChangeNotifier {
-  /// Current temperature string. For example: 59°
+  /// Current location String.
+  ///
+  /// For example: Mountain View, CA.
+  get location => _location;
+  String _location = 'Mountain View, CA';
+
+  /// Current temperature string. For example: 59°F.
   get temperature => _convertFromCelsius(_temperature);
   // Stored in degrees celsius, and converted based on the current unit setting.
   num _temperature = 22;
@@ -39,8 +34,8 @@ class WeatherModel extends ChangeNotifier {
     }
   }
 
-  /// Daily high temperature. For example: 65°F
-  get high  => _convertFromCelsius(_high);
+  /// Daily high temperature. For example: 65°F.
+  get high => _convertFromCelsius(_high);
   // Stored in degrees celsius, and converted based on the current unit setting.
   num _high = 65;
   set high(num high) {
@@ -51,8 +46,8 @@ class WeatherModel extends ChangeNotifier {
     }
   }
 
-  /// Daily low temperature. For example: 54°F
-  get low  => _convertFromCelsius(_low);
+  /// Daily low temperature. For example: 54°F.
+  get low => _convertFromCelsius(_low);
   num _low = 54;
   set low(num low) {
     low = _convertToCelsius(low);
