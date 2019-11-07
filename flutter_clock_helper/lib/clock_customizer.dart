@@ -76,22 +76,13 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     );
   }
 
-  Widget _textField() {
-    TextField(
-      key: _inputKey,
-      style: Theme.of(context).textTheme.display1,
+  Widget _textField(String label, String hint, ValueChanged<Null> onChanged) {
+    return TextField(
       decoration: InputDecoration(
-        labelStyle: Theme.of(context).textTheme.display1,
-        errorText: _showValidationError ? 'Invalid number entered' : null,
-        labelText: 'Input',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0.0),
-        ),
+        labelText: label,
+        hintText: hint,
       ),
-      // Since we only want numerical input, we use a number keyboard. There
-      // are also other keyboards for dates, emails, phone numbers, etc.
-      keyboardType: TextInputType.number,
-      onChanged: _updateInputValue,
+      onChanged: onChanged,
     );
   }
 
@@ -100,35 +91,46 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       child: Drawer(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            children: <Widget>[
-              _enumMenu('Theme', _themeMode,
-                  ThemeMode.values.toList()..remove(ThemeMode.system),
-                  (ThemeMode mode) {
-                setState(() {
-                  _themeMode = mode;
-                });
-              }),
-              _switch('24-hour format', _model.is24HourFormat, (bool value) {
-                setState(() {
-                  _model.is24HourFormat = value;
-                });
-              }),
-              _enumMenu(
-                  'Weather', _model.weatherCondition, WeatherCondition.values,
-                  (WeatherCondition condition) {
-                setState(() {
-                  _model.weatherCondition = condition;
-                });
-              }),
-              _enumMenu('Units', _model.unit, TemperatureUnit.values,
-                  (TemperatureUnit unit) {
-                setState(() {
-                  _model.unit = unit;
-                });
-              }),
-              _textField(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                _textField('Location', 'e.g. city', (String location) {
+                  setState(() {
+                    _model.location = location;
+                  });
+                }),
+                _textField('Temperature', 'e.g. 22', (String temperature) {
+                  setState(() {
+                    _model.temperature = double.parse(temperature);
+                  });
+                }),
+                _enumMenu('Theme', _themeMode,
+                    ThemeMode.values.toList()..remove(ThemeMode.system),
+                    (ThemeMode mode) {
+                  setState(() {
+                    _themeMode = mode;
+                  });
+                }),
+                _switch('24-hour format', _model.is24HourFormat, (bool value) {
+                  setState(() {
+                    _model.is24HourFormat = value;
+                  });
+                }),
+                _enumMenu(
+                    'Weather', _model.weatherCondition, WeatherCondition.values,
+                    (WeatherCondition condition) {
+                  setState(() {
+                    _model.weatherCondition = condition;
+                  });
+                }),
+                _enumMenu('Units', _model.unit, TemperatureUnit.values,
+                    (TemperatureUnit unit) {
+                  setState(() {
+                    _model.unit = unit;
+                  });
+                }),
+              ],
+            ),
           ),
         ),
       ),
@@ -169,6 +171,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       darkTheme: ThemeData.from(colorScheme: const ColorScheme.dark()),
       themeMode: _themeMode,
       home: Scaffold(
+        resizeToAvoidBottomPadding: true,
         endDrawer: _configDrawer(context),
         body: SafeArea(
           child: Stack(

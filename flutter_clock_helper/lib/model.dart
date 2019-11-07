@@ -21,6 +21,12 @@ class ClockModel extends ChangeNotifier {
   /// For example: Mountain View, CA.
   get location => _location;
   String _location = 'Mountain View, CA';
+  set location(String location) {
+    if (location != _location) {
+      _location = location;
+      notifyListeners();
+    }
+  }
 
   /// Current temperature string. For example: 59°F.
   get temperature => _convertFromCelsius(_temperature);
@@ -30,6 +36,8 @@ class ClockModel extends ChangeNotifier {
     temperature = _convertToCelsius(temperature);
     if (temperature != _temperature) {
       _temperature = temperature;
+      _low = _temperature - 3;
+      _high = _temperature + 4;
       notifyListeners();
     }
   }
@@ -139,7 +147,6 @@ enum TemperatureUnit {
   celsius,
   fahrenheit,
 }
-
 
 /// Removes the enum type and returns the value as a String.
 String enumToString(Object e) => e.toString().split('.').last;
