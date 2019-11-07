@@ -42,10 +42,7 @@ lib/generated_plugin_registrant.dart
 **/build/
 
 # Remove pubspec.lock for libraries
-analog_clock/pubspec.lock
-clock_customizer/pubspec.lock
-digital_clock/pubspec.lock
-model/pubspec.lock
+flutter_clock_helper/pubspec.lock
 
 # Other items grabbed from flutter/flutter repo
 flutter_*.png

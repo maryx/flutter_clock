@@ -1,8 +1,6 @@
 name: analog_clock
-description: An analog clock package.
-version: 0.0.1
-author:
-homepage:
+description: Analog clock.
+version: 1.0.0+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,12 +8,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: "^0.16.0"
-  model:
-    path: ../model
+  flutter_clock_helper:
+    path: ../flutter_clock_helper
+  cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
+  uses-material-design: true

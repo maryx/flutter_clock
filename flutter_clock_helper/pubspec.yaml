@@ -1,5 +1,6 @@
-name: digital_clock
-description: Digital clock.
+name: flutter_clock_helper
+description: Helper classes for Flutter Clock contest.
+
 version: 1.0.0+1
 
 environment:
@@ -8,8 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_clock_helper:
-    path: ../flutter_clock_helper
+  intl: "^0.16.0"
+
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
@@ -18,7 +19,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  fonts:
-    - family: PressStart2P
-      fonts:
-        - asset: lib/third_party/PressStart2P-Regular.ttf
