@@ -137,7 +137,6 @@ class _AnalogClockState extends State<AnalogClock> {
                   height: 150,
                   decoration: BoxDecoration(
                     color: customTheme.primaryColor,
-                    //borderRadius: BorderRadius.circular(6),
                   ),
                 ),
               ),
