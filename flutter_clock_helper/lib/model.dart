@@ -133,6 +133,7 @@ class ClockModel extends ChangeNotifier {
 /// Weather condition in English.
 enum WeatherCondition {
   cloudy,
+  foggy,
   rainy,
   snowy,
   sunny,
