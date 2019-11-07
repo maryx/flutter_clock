@@ -10,14 +10,13 @@ import 'analog_clock.dart';
 // TODO: If you want to use your own clock, replace
 // `AnalogClock(model: model)` with your clock widget.
 void main() {
-  /// A temporary measure until Platform supports web.
-  if (!kIsWeb) {
-    /// A temporary measure until TargetPlatform supports macOS. 
+  // A temporary measure until Platform supports web.
+  if (!kIsWeb && Platform.isMacOS) {
+    // A temporary measure until TargetPlatform supports macOS. 
     if (Platform.isMacOS) {
       // TODO(gspencergoog): Update this when TargetPlatform includes macOS. https://github.com/flutter/flutter/issues/31366
       // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
       debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
     }
-  }
   runApp(ClockCustomizer((ClockModel model) => AnalogClock(model)));
 }
