@@ -37,7 +37,7 @@ class ClockModel extends ChangeNotifier {
   /// Daily high temperature. For example: 65°F.
   get high => _convertFromCelsius(_high);
   // Stored in degrees celsius, and converted based on the current unit setting.
-  num _high = 65;
+  num _high = 26;
   set high(num high) {
     high = _convertToCelsius(high);
     if (high != _high) {
@@ -48,7 +48,7 @@ class ClockModel extends ChangeNotifier {
 
   /// Daily low temperature. For example: 54°F.
   get low => _convertFromCelsius(_low);
-  num _low = 54;
+  num _low = 19;
   set low(num low) {
     low = _convertToCelsius(low);
     if (low != _low) {
@@ -66,6 +66,8 @@ class ClockModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  String get weatherString => enumToString(weatherCondition);
 
   /// Temperature unit. For example: Fahrenheit.
   TemperatureUnit get unit => _unit;
@@ -137,3 +139,7 @@ enum TemperatureUnit {
   celsius,
   fahrenheit,
 }
+
+
+/// Removes the enum type and returns the value as a String.
+String enumToString(Object e) => e.toString().split('.').last;

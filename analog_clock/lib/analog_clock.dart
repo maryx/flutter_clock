@@ -28,6 +28,9 @@ class AnalogClock extends StatefulWidget {
 class _AnalogClockState extends State<AnalogClock> {
   var _now = DateTime.now();
   var _temperature = '';
+  var _temperatureRange = '';
+  var _condition = '';
+  var _location = '';
   Timer _timer;
 
   @override
@@ -57,7 +60,10 @@ class _AnalogClockState extends State<AnalogClock> {
 
   void _updateModel() {
     setState(() {
-      // Just need to rebuild here
+      _temperature = widget.model.temperatureString;
+      _temperatureRange = '${widget.model.lowString} - ${widget.model.highString}';
+      _condition = widget.model.weatherString;
+      _location = widget.model.location;
     });
   }
 
@@ -78,6 +84,13 @@ class _AnalogClockState extends State<AnalogClock> {
     final time = DateFormat.Hm().format(DateTime.now());
     final colors = Theme.of(context).colorScheme;
     final handColor = colors.onBackground;
+    final weatherInfo = Column(children: [
+      Text(_temperature),
+      Text(_temperatureRange),
+      Text(_condition),
+      Text(_location),
+    ]);
+
     return Semantics.fromProperties(
       properties: SemanticsProperties(
         label:
@@ -112,10 +125,10 @@ class _AnalogClockState extends State<AnalogClock> {
             ),
             Positioned(
               left: 0,
-              top: 0,
+              bottom: 0,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(_temperature),
+                child: weatherInfo,
               ),
             ),
           ],

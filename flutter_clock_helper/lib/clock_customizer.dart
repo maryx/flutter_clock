@@ -76,6 +76,25 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     );
   }
 
+  Widget _textField() {
+    TextField(
+      key: _inputKey,
+      style: Theme.of(context).textTheme.display1,
+      decoration: InputDecoration(
+        labelStyle: Theme.of(context).textTheme.display1,
+        errorText: _showValidationError ? 'Invalid number entered' : null,
+        labelText: 'Input',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(0.0),
+        ),
+      ),
+      // Since we only want numerical input, we use a number keyboard. There
+      // are also other keyboards for dates, emails, phone numbers, etc.
+      keyboardType: TextInputType.number,
+      onChanged: _updateInputValue,
+    );
+  }
+
   Widget _configDrawer(BuildContext context) {
     return SafeArea(
       child: Drawer(
@@ -108,6 +127,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
                   _model.unit = unit;
                 });
               }),
+              _textField(),
             ],
           ),
         ),
