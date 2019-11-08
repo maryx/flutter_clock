@@ -58,24 +58,21 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
 
   Widget _enumMenu<T>(
       String label, T value, List<T> items, ValueChanged<T> onChanged) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: label,
-        ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<T>(
-            value: value,
-            isDense: true,
-            onChanged: onChanged,
-            items: items.map((T item) {
-              return DropdownMenuItem<T>(
-                value: item,
-                child: Text(_enumToString(item)),
-              );
-            }).toList(),
-          ),
+    return InputDecorator(
+      decoration: InputDecoration(
+        labelText: label,
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<T>(
+          value: value,
+          isDense: true,
+          onChanged: onChanged,
+          items: items.map((T item) {
+            return DropdownMenuItem<T>(
+              value: item,
+              child: Text(_enumToString(item)),
+            );
+          }).toList(),
         ),
       ),
     );
@@ -93,39 +90,63 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     );
   }
 
+  Widget _textField(
+      String currentValue, String label, ValueChanged<Null> onChanged) {
+    return TextField(
+      decoration: InputDecoration(
+        hintText: currentValue,
+        helperText: label,
+      ),
+      onChanged: onChanged,
+    );
+  }
+
   Widget _configDrawer(BuildContext context) {
     return SafeArea(
       child: Drawer(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            children: <Widget>[
-              _enumMenu('Theme', _themeMode,
-                  ThemeMode.values.toList()..remove(ThemeMode.system),
-                  (ThemeMode mode) {
-                setState(() {
-                  _themeMode = mode;
-                });
-              }),
-              _switch('24-hour format', _model.is24HourFormat, (bool value) {
-                setState(() {
-                  _model.is24HourFormat = value;
-                });
-              }),
-              _enumMenu(
-                  'Weather', _model.weatherCondition, WeatherCondition.values,
-                  (WeatherCondition condition) {
-                setState(() {
-                  _model.weatherCondition = condition;
-                });
-              }),
-              _enumMenu('Units', _model.unit, TemperatureUnit.values,
-                  (TemperatureUnit unit) {
-                setState(() {
-                  _model.unit = unit;
-                });
-              }),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                _textField(_model.location, 'Location', (String location) {
+                  setState(() {
+                    _model.location = location;
+                  });
+                }),
+                _textField(_model.temperature.toString(), 'Temperature',
+                    (String temperature) {
+                  setState(() {
+                    _model.temperature = double.parse(temperature);
+                  });
+                }),
+                _enumMenu('Theme', _themeMode,
+                    ThemeMode.values.toList()..remove(ThemeMode.system),
+                    (ThemeMode mode) {
+                  setState(() {
+                    _themeMode = mode;
+                  });
+                }),
+                _switch('24-hour format', _model.is24HourFormat, (bool value) {
+                  setState(() {
+                    _model.is24HourFormat = value;
+                  });
+                }),
+                _enumMenu(
+                    'Weather', _model.weatherCondition, WeatherCondition.values,
+                    (WeatherCondition condition) {
+                  setState(() {
+                    _model.weatherCondition = condition;
+                  });
+                }),
+                _enumMenu('Units', _model.unit, TemperatureUnit.values,
+                    (TemperatureUnit unit) {
+                  setState(() {
+                    _model.unit = unit;
+                  });
+                }),
+              ],
+            ),
           ),
         ),
       ),
@@ -154,8 +175,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
         decoration: BoxDecoration(
           border: Border.all(
             width: 2,
-            // TODO use onBackground.
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).unselectedWidgetColor,
           ),
         ),
         child: widget._clock(_model),
@@ -163,10 +183,11 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     );
 
     return MaterialApp(
-      theme: ThemeData.from(colorScheme: const ColorScheme.light()),
-      darkTheme: ThemeData.from(colorScheme: const ColorScheme.dark()),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
       home: Scaffold(
+        resizeToAvoidBottomPadding: false,
         endDrawer: _configDrawer(context),
         body: SafeArea(
           child: Stack(
