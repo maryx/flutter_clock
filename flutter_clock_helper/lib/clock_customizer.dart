@@ -23,6 +23,7 @@ class ClockCustomizer extends StatefulWidget {
 class _ClockCustomizerState extends State<ClockCustomizer> {
   final _model = ClockModel();
   ThemeMode _themeMode = ThemeMode.light;
+  bool _configButtonShown = false;
 
   @override
   void initState() {
@@ -144,6 +145,9 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
           tooltip: 'Configure clock',
           onPressed: () {
             Scaffold.of(context).openEndDrawer();
+            setState(() {
+              _configButtonShown = false;
+            });
           },
         );
       },
@@ -152,16 +156,18 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
 
   @override
   Widget build(BuildContext context) {
-    final clock = AspectRatio(
-      aspectRatio: 5 / 3,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: Theme.of(context).unselectedWidgetColor,
+    final clock = Center(
+      child: AspectRatio(
+        aspectRatio: 5 / 3,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 2,
+              color: Theme.of(context).unselectedWidgetColor,
+            ),
           ),
+          child: widget._clockFace(_model),
         ),
-        child: widget._clockFace(_model),
       ),
     );
 
@@ -169,22 +175,32 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomPadding: false,
         endDrawer: _configDrawer(context),
         body: SafeArea(
-          child: Stack(
-            children: [
-              clock,
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Opacity(
-                  opacity: 0.7,
-                  child: _configButton(),
-                ),
-              ),
-            ],
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              setState(() {
+                _configButtonShown = !_configButtonShown;
+              });
+            },
+            child: Stack(
+              children: [
+                clock,
+                if (_configButtonShown)
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Opacity(
+                      opacity: 0.7,
+                      child: _configButton(),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
