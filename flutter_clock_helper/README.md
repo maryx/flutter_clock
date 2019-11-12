@@ -29,4 +29,4 @@ To use inside your app's `main.dart`:
 ```
 
 For more details, see the code inside [lib/](lib).
-For a full example, see the [Analog Clock](analog_clock) or [Digital Clock](digital_clock) in this GitHub repo.
+For a full example, see the [Analog Clock](../analog_clock) or [Digital Clock](../digital_clock) in this GitHub repo.
