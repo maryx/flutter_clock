@@ -18,14 +18,14 @@ typedef Widget ClockBuilder(ClockModel model);
 ///
 /// Puts clock in landscape orientation with an aspect ratio of 5:3.
 /// Provides drawer where users can customize the data that is sent to the
-/// clock.
+/// clock. To show/hide the drawer, double tap on the clock.
 ///
 /// To use the [ClockCustomizer], pass your clock into it, via a ClockBuilder.
+///
 /// ```
 ///   final myClockBuilder = (ClockModel model) => AnalogClock(model);
 ///   return ClockCustomizer(myClockBuilder);
 /// ```
-///
 /// Contestants should not edit this.
 class ClockCustomizer extends StatefulWidget {
   /// Clock widget with [ClockModel] to update and display.
@@ -71,7 +71,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
           items: items.map((T item) {
             return DropdownMenuItem<T>(
               value: item,
-              child: Text(_enumToString(item)),
+              child: Text(enumToString(item)),
             );
           }).toList(),
         ),
@@ -224,13 +224,3 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
     );
   }
 }
-
-String _enumToString(Object e) => e.toString().split('.').last;
-
-T _stringToEnum<T>(String string, Iterable<T> enums) {
-  return enums.firstWhere((type) => type.toString().split('.').last == string,
-      orElse: () => null);
-}
-
-List<String> _enumsToStrings(List<Object> enums) =>
-    enums.map((e) => e.toString().split('.').last).toList(growable: false);

@@ -79,6 +79,7 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
+  /// [WeatherCondition] value without the enum type.
   String get weatherString => enumToString(weatherCondition);
 
   /// Temperature unit, e.g. 'celsius'.
@@ -91,18 +92,22 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
+  /// Temperature with unit.
   String get temperatureString {
     return '${temperature.toStringAsFixed(1)}$unitString';
   }
 
+  /// Temperature high with unit.
   String get highString {
     return '${high.toStringAsFixed(1)}$unitString';
   }
 
+  /// Temperature low with unit.
   String get lowString {
     return '${low.toStringAsFixed(1)}$unitString';
   }
 
+  /// Temperature unit with degrees.
   String get unitString {
     switch (unit) {
       case TemperatureUnit.fahrenheit:

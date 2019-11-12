@@ -4,12 +4,14 @@
 
 import 'dart:async';
 
+import 'package:flutter_clock_helper/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:intl/intl.dart';
 import 'package:vector_math/vector_math_64.dart' show radians;
 
-import 'hand.dart';
+import 'container_hand.dart';
+import 'drawn_hand.dart';
 
 /// Total distance travelled by a second/minute hand, each second/minute.
 final radiansPerTick = radians(360 / 60);
@@ -21,9 +23,9 @@ final radiansPerHour = radians(360 / 12);
 ///
 /// You can do better than this!
 class AnalogClock extends StatefulWidget {
-  const AnalogClock(this.model);
+  final ClockModel model;
 
-  final model;
+  const AnalogClock(this.model);
 
   @override
   _AnalogClockState createState() => _AnalogClockState();
@@ -146,7 +148,6 @@ class _AnalogClockState extends State<AnalogClock> {
               angleRadians: _now.minute * radiansPerTick,
             ),
             // Example of hand drawn with [Container].
-            // Note that this hand does not scale the way that DrawnHand does.
             ContainerHand(
               color: Colors.transparent,
               size: 0.5,
