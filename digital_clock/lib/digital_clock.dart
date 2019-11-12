@@ -80,7 +80,7 @@ class _DigitalClockState extends State<DigitalClock> {
       // code below.
       _timer = Timer(
         Duration(minutes: 1) -
-            Duration(milliseconds: _dateTime.second) -
+            Duration(seconds: _dateTime.second) -
             Duration(milliseconds: _dateTime.millisecond),
         _updateTime,
       );
