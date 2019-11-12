@@ -1,4 +1,4 @@
-# flutter_clock_helper
+# Flutter Clock Helper
 
 This package provides scaffolding code for the clock in the Flutter Clock contest.
 Contestants should not edit this code.

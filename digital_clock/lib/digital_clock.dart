@@ -69,15 +69,15 @@ class _DigitalClockState extends State<DigitalClock> {
 
   void _updateModel() {
     setState(() {
-      // Just need to rebuild here
+      // Cause a rebuild when the model changes.
     });
   }
 
   void _updateTime() {
     setState(() {
       _dateTime = DateTime.now();
-      // Update once per minute. If you want to update every second, use the code
-      // below.
+      // Update once per minute. If you want to update every second, use the
+      // code below.
       _timer = Timer(
         Duration(minutes: 1) -
             Duration(milliseconds: _dateTime.second) -
