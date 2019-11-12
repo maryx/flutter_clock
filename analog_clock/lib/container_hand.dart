@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 
 import 'hand.dart';
 
-/// Clock hand that built out of the child of a [Container].
+/// Clock hand that is built out of the child of a [Container].
 ///
-/// This hand does not scale the way that [DrawnHand] does.
+/// This hand does not scale according to the clock's size.
+/// It's used as the hour hand in our analog clock, and
+/// demonstrates building a hand using existing Flutter widgets.
 class ContainerHand extends Hand {
   /// Create a const clock [Hand].
   ///

@@ -10,7 +10,9 @@ import 'hand.dart';
 
 /// Clock hand that is drawn with [CustomPainter].
 ///
-/// Its length scales based on the size of the clock.
+/// Its length scales based on the clock's size.
+/// It's used to build the second and minute hands, and
+/// demonstrates building a custom hand.
 class DrawnHand extends Hand {
   /// Create a const clock [Hand].
   ///
