@@ -26,7 +26,7 @@ To use inside your app's `main.dart`:
 
 ```
   runApp(ClockCustomizer((ClockModel model) => AnalogClock(model)));
-
 ```
 
+For more details, see the code inside lib/.
 For a full example, see the Analog Clock or Digital Clock in this GitHub repo.
