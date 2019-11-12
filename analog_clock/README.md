@@ -3,6 +3,8 @@
 This app is an example of an analog clock.
 It has a light and dark theme, and displays sample weather and location data.
 
-![light analog clock](analog_light.png)
+<img src='analog.gif' width='350'>
 
-![dark analog clock](analog_dark.png)
+<img src='analog_light.png' width='350'>
+
+<img src='analog_dark.png' width='350'>

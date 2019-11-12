@@ -2,7 +2,7 @@
 
 This app is an example of a digital clock.
 It has a light and dark theme.
-See the Analog Clock if you'd like to an example displaying weather and location.
+See the [Analog Clock](../analog_clock) if you'd like to an example displaying weather and location.
 
 <img src='digital_light.png' width='350'>
 
