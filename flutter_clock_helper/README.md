@@ -20,7 +20,7 @@ Provides data that can change in the clock. Look in model.dart for more details.
 Provides customizations for your clock (based on the model).
 You can change the behavior of your clock based on these customizations.
 
-![Customizer screenshot](customizer.png)
+<img src='customizer.png' width='350'>
 
 To use inside your app's `main.dart`:
 
