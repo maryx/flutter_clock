@@ -1,14 +1,32 @@
-# flutter_clock_helper
+# Flutter Clock Helper
 
-A new Flutter package project.
+This package provides scaffolding code for the clock in the Flutter Clock contest.
+Contestants should not edit this code.
 
-## Getting Started
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Model
+Provides data that can change in the clock. Look in model.dart for more details.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ * Time format (12- or 24-hour)
+ * Location
+ * Temperature
+ * Temperature high
+ * Temperature low
+ * Temperature unit
+ * Weather unit
+
+
+## Clock Customizer
+Provides customizations for your clock (based on the model).
+You can change the behavior of your clock based on these customizations.
+
+<img src='customizer.png' width='350'>
+
+To use inside your app's `main.dart`:
+
+```
+  runApp(ClockCustomizer((ClockModel model) => AnalogClock(model)));
+```
+
+For more details, see the code inside [lib/](lib).
+For a full example, see the [Analog Clock](../analog_clock) or [Digital Clock](../digital_clock) in this GitHub repo.

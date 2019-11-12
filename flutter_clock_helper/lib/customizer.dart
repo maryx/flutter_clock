@@ -1,20 +1,37 @@
+// Copyright 2019 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 import 'model.dart';
 
-String enumToString(Object e) => e.toString().split('.').last;
+/// Returns a clock [Widget] with [ClockModel].
+///
+/// Example:
+///   final myClockBuilder = (ClockModel model) => AnalogClock(model);
+///
+/// Contestants should not edit this.
+typedef Widget ClockBuilder(ClockModel model);
 
-T stringToEnum<T>(String string, Iterable<T> enums) {
-  return enums.firstWhere((type) => type.toString().split('.').last == string,
-      orElse: () => null);
-}
-
-List<String> enumsToStrings(List<Object> enums) =>
-    enums.map((e) => e.toString().split('.').last).toList(growable: false);
-
+/// Wrapper for clock widget to allow for customizations.
+///
+/// Puts clock in landscape orientation with an aspect ratio of 5:3.
+/// Provides drawer where users can customize the data that is sent to the
+/// clock. To show/hide the drawer, double tap on the clock.
+///
+/// To use the [ClockCustomizer], pass your clock into it, via a ClockBuilder.
+///
+/// ```
+///   final myClockBuilder = (ClockModel model) => AnalogClock(model);
+///   return ClockCustomizer(myClockBuilder);
+/// ```
+/// Contestants should not edit this.
 class ClockCustomizer extends StatefulWidget {
-  final dynamic _clockFace;
-  ClockCustomizer(this._clockFace);
+  const ClockCustomizer(this._clock);
+
+  /// Clock widget with [ClockModel] to update and display.
+  final ClockBuilder _clock;
 
   @override
   _ClockCustomizerState createState() => _ClockCustomizerState();
@@ -166,7 +183,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
               color: Theme.of(context).unselectedWidgetColor,
             ),
           ),
-          child: widget._clockFace(_model),
+          child: widget._clock(_model),
         ),
       ),
     );
