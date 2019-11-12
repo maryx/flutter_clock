@@ -23,9 +23,9 @@ final radiansPerHour = radians(360 / 12);
 ///
 /// You can do better than this!
 class AnalogClock extends StatefulWidget {
-  final ClockModel model;
-
   const AnalogClock(this.model);
+
+  final ClockModel model;
 
   @override
   _AnalogClockState createState() => _AnalogClockState();

@@ -28,10 +28,10 @@ typedef Widget ClockBuilder(ClockModel model);
 /// ```
 /// Contestants should not edit this.
 class ClockCustomizer extends StatefulWidget {
+  const ClockCustomizer(this._clock);
+
   /// Clock widget with [ClockModel] to update and display.
   final ClockBuilder _clock;
-
-  const ClockCustomizer(this._clock);
 
   @override
   _ClockCustomizerState createState() => _ClockCustomizerState();
