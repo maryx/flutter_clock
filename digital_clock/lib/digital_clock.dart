@@ -15,15 +15,15 @@ enum _Element {
 }
 
 final _lightTheme = {
-  _Element.background: Colors.blue,
-  _Element.text: Colors.blue[50],
+  _Element.background: Color(0xFF81B3FE),
+  _Element.text: Colors.white,
   _Element.shadow: Colors.black,
 };
 
 final _darkTheme = {
-  _Element.background: Colors.blue[900],
+  _Element.background: Colors.black,
   _Element.text: Colors.white,
-  _Element.shadow: Colors.blue,
+  _Element.shadow: Color(0xFF174EA6),
 };
 
 /// A very basic digital clock.
@@ -101,11 +101,12 @@ class _DigitalClockState extends State<DigitalClock> {
     final hour =
         DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
     final minute = DateFormat('mm').format(_dateTime);
-
+    final fontSize = MediaQuery.of(context).size.width / 3.5;
+    final offset = -fontSize / 7;
     final defaultStyle = TextStyle(
       color: colors[_Element.text],
       fontFamily: 'PressStart2P',
-      fontSize: 130,
+      fontSize: fontSize,
       shadows: [
         Shadow(
           blurRadius: 0,
@@ -122,8 +123,8 @@ class _DigitalClockState extends State<DigitalClock> {
           style: defaultStyle,
           child: Stack(
             children: <Widget>[
-              Positioned(left: -16, top: 0, child: Text(hour)),
-              Positioned(right: -16, bottom: -16, child: Text(minute)),
+              Positioned(left: offset, top: 0, child: Text(hour)),
+              Positioned(right: offset, bottom: offset, child: Text(minute)),
             ],
           ),
         ),
