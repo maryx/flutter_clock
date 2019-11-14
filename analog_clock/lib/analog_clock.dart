@@ -89,7 +89,7 @@ class _AnalogClockState extends State<AnalogClock> {
   Widget build(BuildContext context) {
     // There are many ways to apply themes to your clock. Some are:
     //  - Inherit the parent Theme (see ClockCustomizer in the
-    //    flutter-clock-helper package).
+    //    flutter_clock_helper package).
     //  - Override the Theme.of(context).colorScheme.
     //  - Create your own [ThemeData], demonstrated in [AnalogClock].
     //  - Create a map of [Color]s to custom keys, demonstrated in
