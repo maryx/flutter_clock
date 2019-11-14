@@ -13,10 +13,10 @@ import 'package:vector_math/vector_math_64.dart' show radians;
 import 'container_hand.dart';
 import 'drawn_hand.dart';
 
-/// Total distance traveled by a second or a minute hand, each second or minute, respectively
+/// Total distance traveled by a second or a minute hand, each second or minute, respectively.
 final radiansPerTick = radians(360 / 60);
 
-/// Total distance traveled by an hour hand, each hour, in radians
+/// Total distance traveled by an hour hand, each hour, in radians.
 final radiansPerHour = radians(360 / 12);
 
 /// A basic analog clock.
