@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 
 import 'hand.dart';
 
-/// Clock hand that is drawn with [CustomPainter].
+/// A clock hand that is drawn with [CustomPainter]
 ///
-/// Its length scales based on the clock's size.
+/// The clock's length scales based on its size.
+///<NOTE to MARY> I'm not sure what "it's" is referring to in the next sentence. Please use the specific noun plus "is".
 /// It's used to build the second and minute hands, and
 /// demonstrates building a custom hand.
 class DrawnHand extends Hand {
@@ -32,7 +33,7 @@ class DrawnHand extends Hand {
           angleRadians: angleRadians,
         );
 
-  /// How thick the hand should be drawn, in logical pixels.
+  /// How thick the hand should be drawn, in logical pixels
   final double thickness;
 
   @override
@@ -52,7 +53,7 @@ class DrawnHand extends Hand {
   }
 }
 
-/// [CustomPainter] that draws a clock hand.
+/// [CustomPainter] that draws a clock hand
 class _HandPainter extends CustomPainter {
   _HandPainter({
     @required this.handSize,
@@ -74,7 +75,7 @@ class _HandPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = (Offset.zero & size).center;
-    // We want to start at the top, not the x-axis, so add pi/2.
+    // We want to start at the top, not at the x-axis, so add pi/2.
     final angle = angleRadians - math.pi / 2.0;
     final length = size.shortestSide * 0.5 * handSize;
     final position = center + Offset(math.cos(angle), math.sin(angle)) * length;

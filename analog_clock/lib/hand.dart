@@ -20,13 +20,13 @@ abstract class Hand extends StatelessWidget {
         assert(size != null),
         assert(angleRadians != null);
 
-  /// The color to draw the hand in.
+  /// The color to draw the hand in
   final Color color;
 
   /// The length that the hand will be, as a percentage of the smallest side of
-  /// the rectangle the clock is in.
+  /// the rectangle the clock is in
   final double size;
-
-  /// The angle from vertical to draw the hand at, in radians.
+///<NOTE to MARY> I don't understand "from vertical". The vertical line of the clock?
+  /// The angle from vertical to draw the hand at, in radians
   final double angleRadians;
 }
