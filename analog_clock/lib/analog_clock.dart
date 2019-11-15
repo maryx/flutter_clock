@@ -13,7 +13,8 @@ import 'package:vector_math/vector_math_64.dart' show radians;
 import 'container_hand.dart';
 import 'drawn_hand.dart';
 
-/// Total distance traveled by a second or a minute hand, each second or minute, respectively.
+/// Total distance traveled by a second or a minute hand, each second or minute,
+/// respectively.
 final radiansPerTick = radians(360 / 60);
 
 /// Total distance traveled by an hour hand, each hour, in radians.
@@ -96,11 +97,11 @@ class _AnalogClockState extends State<AnalogClock> {
     //    [DigitalClock].
     final customTheme = Theme.of(context).brightness == Brightness.light
         ? Theme.of(context).copyWith(
-            // Hour hand
+            // Hour hand.
             primaryColor: Color(0xFF4285F4),
-            // Minute hand
+            // Minute hand.
             highlightColor: Color(0xFF8AB4F8),
-            // Second hand
+            // Second hand.
             accentColor: Color(0xFF669DF6),
             backgroundColor: Color(0xFFD2E3FC),
           )
@@ -134,7 +135,7 @@ class _AnalogClockState extends State<AnalogClock> {
         color: customTheme.backgroundColor,
         child: Stack(
           children: [
-            // Example of a hand drawn with [CustomPainter]
+            // Example of a hand drawn with [CustomPainter].
             DrawnHand(
               color: customTheme.accentColor,
               thickness: 4,
@@ -147,7 +148,7 @@ class _AnalogClockState extends State<AnalogClock> {
               size: 0.9,
               angleRadians: _now.minute * radiansPerTick,
             ),
-            // Example of a hand drawn with [Container]
+            // Example of a hand drawn with [Container].
             ContainerHand(
               color: Colors.transparent,
               size: 0.5,

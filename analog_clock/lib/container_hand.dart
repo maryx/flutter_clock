@@ -9,8 +9,8 @@ import 'hand.dart';
 /// A clock hand that is built out of the child of a [Container].
 ///
 /// This hand does not scale according to the clock's size.
-/// This hand is used as the hour hand in our analog clock, and
-/// demonstrates building a hand using existing Flutter widgets.
+/// This hand is used as the hour hand in our analog clock, and demonstrates
+/// building a hand using existing Flutter widgets.
 class ContainerHand extends Hand {
   /// Create a const clock [Hand].
   ///
@@ -28,8 +28,7 @@ class ContainerHand extends Hand {
           angleRadians: angleRadians,
         );
 
-  /// The child widget used as the clock hand and rotated by
-  /// [angleRadians]
+  /// The child widget used as the clock hand and rotated by [angleRadians].
   final Widget child;
 
   @override

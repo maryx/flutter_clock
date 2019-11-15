@@ -22,7 +22,7 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Current location String, for example 'Mountain View, CA'
+  /// Current location String, for example 'Mountain View, CA'.
   get location => _location;
   String _location = 'Mountain View, CA';
   set location(String location) {
@@ -32,7 +32,7 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Current temperature string, for example '22°C'
+  /// Current temperature string, for example '22°C'.
   get temperature => _convertFromCelsius(_temperature);
   // Stored in degrees celsius, and converted based on the current unit setting
   num _temperature = 22.0;
@@ -46,7 +46,7 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Daily high temperature, for example '26'
+  /// Daily high temperature, for example '26'.
   get high => _convertFromCelsius(_high);
   // Stored in degrees celsius, and converted based on the current unit setting
   num _high = 26.0;
@@ -58,7 +58,7 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Daily low temperature, for example '19'
+  /// Daily low temperature, for example '19'.
   get low => _convertFromCelsius(_low);
   num _low = 19.0;
   set low(num low) {
@@ -69,7 +69,7 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Weather condition text for the current weather, for example  'cloudy'
+  /// Weather condition text for the current weather, for example  'cloudy'.
   WeatherCondition get weatherCondition => _weatherCondition;
   WeatherCondition _weatherCondition = WeatherCondition.sunny;
   set weatherCondition(WeatherCondition weatherCondition) {
@@ -79,10 +79,10 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// [WeatherCondition] value without the enum type
+  /// [WeatherCondition] value without the enum type.
   String get weatherString => enumToString(weatherCondition);
 
-  /// Temperature unit, for example 'celsius'
+  /// Temperature unit, for example 'celsius'.
   TemperatureUnit get unit => _unit;
   TemperatureUnit _unit = TemperatureUnit.celsius;
   set unit(TemperatureUnit unit) {
@@ -92,22 +92,22 @@ class ClockModel extends ChangeNotifier {
     }
   }
 
-  /// Temperature with unit of measurement
+  /// Temperature with unit of measurement.
   String get temperatureString {
     return '${temperature.toStringAsFixed(1)}$unitString';
   }
 
-  /// Temperature high with unit of measurement
+  /// Temperature high with unit of measurement.
   String get highString {
     return '${high.toStringAsFixed(1)}$unitString';
   }
 
-  /// Temperature low with unit of measurement
+  /// Temperature low with unit of measurement.
   String get lowString {
     return '${low.toStringAsFixed(1)}$unitString';
   }
 
-  /// Temperature unit of measurement with degrees
+  /// Temperature unit of measurement with degrees.
   String get unitString {
     switch (unit) {
       case TemperatureUnit.fahrenheit:
@@ -141,7 +141,7 @@ class ClockModel extends ChangeNotifier {
   }
 }
 
-/// Weather condition in English
+/// Weather condition in English.
 enum WeatherCondition {
   cloudy,
   foggy,
@@ -152,7 +152,7 @@ enum WeatherCondition {
   windy,
 }
 
-/// Temperature unit of measurement
+/// Temperature unit of measurement.
 enum TemperatureUnit {
   celsius,
   fahrenheit,

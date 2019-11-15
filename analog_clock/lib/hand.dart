@@ -23,7 +23,8 @@ abstract class Hand extends StatelessWidget {
   /// Hand color.
   final Color color;
 
-  /// Hand length, as a percentage of the smaller side of the clock's parent container.
+  /// Hand length, as a percentage of the smaller side of the clock's parent
+  /// container.
   final double size;
 
   /// The angle, in radians, at which the hand is drawn.

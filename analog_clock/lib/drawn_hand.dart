@@ -11,9 +11,8 @@ import 'hand.dart';
 /// A clock hand that is drawn with [CustomPainter]
 ///
 /// The clock's length scales based on its size.
-///<NOTE to MARY> I'm not sure what "it's" is referring to in the next sentence. Please use the specific noun plus "is".
-/// It's used to build the second and minute hands, and
-/// demonstrates building a custom hand.
+/// This hand is used to build the second and minute hands, and demonstrates
+/// building a custom hand.
 class DrawnHand extends Hand {
   /// Create a const clock [Hand].
   ///
@@ -33,7 +32,7 @@ class DrawnHand extends Hand {
           angleRadians: angleRadians,
         );
 
-  /// How thick the hand should be drawn, in logical pixels
+  /// How thick the hand should be drawn, in logical pixels.
   final double thickness;
 
   @override
@@ -53,7 +52,7 @@ class DrawnHand extends Hand {
   }
 }
 
-/// [CustomPainter] that draws a clock hand
+/// [CustomPainter] that draws a clock hand.
 class _HandPainter extends CustomPainter {
   _HandPainter({
     @required this.handSize,
