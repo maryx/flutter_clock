@@ -11,26 +11,26 @@ import 'model.dart';
 /// Example:
 ///   final myClockBuilder = (ClockModel model) => AnalogClock(model);
 ///
-/// Contestants should not edit this.
+/// Contestants: Do not edit this.
 typedef Widget ClockBuilder(ClockModel model);
 
 /// Wrapper for clock widget to allow for customizations.
 ///
-/// Puts clock in landscape orientation with an aspect ratio of 5:3.
-/// Provides drawer where users can customize the data that is sent to the
-/// clock. To show/hide the drawer, double tap on the clock.
+/// Puts the clock in landscape orientation with an aspect ratio of 5:3.
+/// Provides a drawer where users can customize the data that is sent to the
+/// clock. To show/hide the drawer, double-tap the clock.
 ///
-/// To use the [ClockCustomizer], pass your clock into it, via a ClockBuilder.
+/// To use the [ClockCustomizer], pass your clock into it, using a ClockBuilder.
 ///
 /// ```
 ///   final myClockBuilder = (ClockModel model) => AnalogClock(model);
 ///   return ClockCustomizer(myClockBuilder);
 /// ```
-/// Contestants should not edit this.
+/// Contestants: Do not edit this.
 class ClockCustomizer extends StatefulWidget {
   const ClockCustomizer(this._clock);
 
-  /// Clock widget with [ClockModel] to update and display.
+  /// The clock widget with [ClockModel], to update and display.
   final ClockBuilder _clock;
 
   @override

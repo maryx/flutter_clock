@@ -20,13 +20,15 @@ abstract class Hand extends StatelessWidget {
         assert(size != null),
         assert(angleRadians != null);
 
-  /// The color to draw the hand in.
+  /// Hand color.
   final Color color;
 
-  /// The length that the hand will be, as a percentage of the smallest side of
-  /// the rectangle the clock is in.
+  /// Hand length, as a percentage of the smaller side of the clock's parent
+  /// container.
   final double size;
 
-  /// The angle from vertical to draw the hand at, in radians.
+  /// The angle, in radians, at which the hand is drawn.
+  ///
+  /// This angle is measured from the 12 o'clock position.
   final double angleRadians;
 }

@@ -13,13 +13,14 @@ import 'package:vector_math/vector_math_64.dart' show radians;
 import 'container_hand.dart';
 import 'drawn_hand.dart';
 
-/// Total distance travelled by a second/minute hand, each second/minute.
+/// Total distance traveled by a second or a minute hand, each second or minute,
+/// respectively.
 final radiansPerTick = radians(360 / 60);
 
-/// Total distance travelled by an hour hand, each hour, in radians.
+/// Total distance traveled by an hour hand, each hour, in radians.
 final radiansPerHour = radians(360 / 12);
 
-/// A very basic analog clock.
+/// A basic analog clock.
 ///
 /// You can do better than this!
 class AnalogClock extends StatefulWidget {
@@ -76,7 +77,7 @@ class _AnalogClockState extends State<AnalogClock> {
   void _updateTime() {
     setState(() {
       _now = DateTime.now();
-      // Update once per second, but make sure to do it at the beginning of each
+      // Update once per second. Make sure to do it at the beginning of each
       // new second, so that the clock is accurate.
       _timer = Timer(
         Duration(seconds: 1) - Duration(milliseconds: _now.millisecond),
@@ -87,10 +88,10 @@ class _AnalogClockState extends State<AnalogClock> {
 
   @override
   Widget build(BuildContext context) {
-    // There are several ways to theme your clock. Some ways:
+    // There are many ways to apply themes to your clock. Some are:
     //  - Inherit the parent Theme (see ClockCustomizer in the
-    //    flutter-clock-helper package)
-    //  - Override the Theme.of(context).colorScheme
+    //    flutter_clock_helper package).
+    //  - Override the Theme.of(context).colorScheme.
     //  - Create your own [ThemeData], demonstrated in [AnalogClock].
     //  - Create a map of [Color]s to custom keys, demonstrated in
     //    [DigitalClock].
@@ -134,7 +135,7 @@ class _AnalogClockState extends State<AnalogClock> {
         color: customTheme.backgroundColor,
         child: Stack(
           children: [
-            // Example of hand drawn with [CustomPainter].
+            // Example of a hand drawn with [CustomPainter].
             DrawnHand(
               color: customTheme.accentColor,
               thickness: 4,
@@ -147,7 +148,7 @@ class _AnalogClockState extends State<AnalogClock> {
               size: 0.9,
               angleRadians: _now.minute * radiansPerTick,
             ),
-            // Example of hand drawn with [Container].
+            // Example of a hand drawn with [Container].
             ContainerHand(
               color: Colors.transparent,
               size: 0.5,

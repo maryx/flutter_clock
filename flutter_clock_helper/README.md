@@ -1,7 +1,8 @@
 # Flutter Clock Helper
 
 This package provides scaffolding code for the clock in the Flutter Clock contest.
-Contestants should not edit this code.
+
+Contestants: Do not edit this code.
 
 
 ## Model
@@ -28,5 +29,5 @@ To use inside your app's `main.dart`:
   runApp(ClockCustomizer((ClockModel model) => AnalogClock(model)));
 ```
 
-For more details, see the code inside [lib/](lib).
+For more information, see the code inside [lib/](lib).
 For a full example, see the [Analog Clock](../analog_clock) or [Digital Clock](../digital_clock) in this GitHub repo.

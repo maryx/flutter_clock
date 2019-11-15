@@ -26,7 +26,7 @@ final _darkTheme = {
   _Element.shadow: Color(0xFF174EA6),
 };
 
-/// A very basic digital clock.
+/// A basic digital clock.
 ///
 /// You can do better than this!
 class DigitalClock extends StatefulWidget {
@@ -69,7 +69,7 @@ class _DigitalClockState extends State<DigitalClock> {
 
   void _updateModel() {
     setState(() {
-      // Cause a rebuild when the model changes.
+      // Cause the clock to rebuild when the model changes.
     });
   }
 
@@ -77,7 +77,7 @@ class _DigitalClockState extends State<DigitalClock> {
     setState(() {
       _dateTime = DateTime.now();
       // Update once per minute. If you want to update every second, use the
-      // code below.
+      // following code.
       _timer = Timer(
         Duration(minutes: 1) -
             Duration(seconds: _dateTime.second) -
